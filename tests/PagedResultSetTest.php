@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search;
 
+use CultuurNet\UDB3\ReadModel\JsonDocument;
 use ValueObjects\Number\Natural;
 
 class PagedResultSetTest extends \PHPUnit_Framework_TestCase
@@ -13,9 +14,12 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
     {
         $total = new Natural(1000);
         $perPage = new Natural(30);
+
         $results = [
-            ['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK'],
-            ['@id' => 'http://acme.com/organizer/456', 'name' => 'Het Depot'],
+            (new JsonDocument(123))
+                ->withBody(['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']),
+            (new JsonDocument(456))
+                ->withBody(['@id' => 'http://acme.com/organizer/456', 'name' => 'Het Depot']),
         ];
 
         $pagedResultSet = new PagedResultSet(
@@ -27,5 +31,32 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($total, $pagedResultSet->getTotal());
         $this->assertEquals($perPage, $pagedResultSet->getPerPage());
         $this->assertEquals($results, $pagedResultSet->getResults());
+    }
+
+    /**
+     * @test
+     */
+    public function it_guards_that_results_are_all_json_documents()
+    {
+        $total = new Natural(1000);
+        $perPage = new Natural(30);
+
+        $results = [
+            (new JsonDocument(123))
+                ->withBody(['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']),
+            'foo',
+            'bar',
+        ];
+
+        $this->setExpectedException(
+            \InvalidArgumentException::class,
+            'Results should be an array of JsonDocument objects.'
+        );
+
+        new PagedResultSet(
+            $total,
+            $perPage,
+            $results
+        );
     }
 }
