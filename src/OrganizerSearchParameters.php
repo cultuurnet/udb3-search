@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search;
 
 use ValueObjects\String\String as StringLiteral;
+use ValueObjects\Web\Url;
 
 class OrganizerSearchParameters extends AbstractSearchParameters
 {
@@ -10,6 +11,11 @@ class OrganizerSearchParameters extends AbstractSearchParameters
      * @var StringLiteral|null
      */
     private $name;
+
+    /**
+     * @var Url|null
+     */
+    private $website;
 
     /**
      * @param StringLiteral $name
@@ -28,5 +34,24 @@ class OrganizerSearchParameters extends AbstractSearchParameters
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param Url $website
+     * @return OrganizerSearchParameters
+     */
+    public function withWebsite(Url $website)
+    {
+        $c = clone $this;
+        $c->website = $website;
+        return $c;
+    }
+
+    /**
+     * @return Url|null
+     */
+    public function getWebsite()
+    {
+        return $this->website;
     }
 }

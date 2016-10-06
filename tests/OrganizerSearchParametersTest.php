@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Search;
 
 use ValueObjects\Number\Natural;
 use ValueObjects\String\String as StringLiteral;
+use ValueObjects\Web\Url;
 
 class OrganizerSearchParametersTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,5 +38,19 @@ class OrganizerSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertNull($defaultParameters->getName());
         $this->assertEquals(new StringLiteral('STUK'), $specificParameters->getName());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_website_parameter()
+    {
+        $defaultParameters = new OrganizerSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withWebsite(Url::fromNative('http://foo.bar'));
+
+        $this->assertNull($defaultParameters->getWebsite());
+        $this->assertEquals(Url::fromNative('http://foo.bar'), $specificParameters->getWebsite());
     }
 }
