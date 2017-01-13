@@ -29,8 +29,8 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->jsonRepository = $this->getMock(DocumentRepositoryInterface::class);
-        $this->searchRepository = $this->getMock(DocumentRepositoryInterface::class);
+        $this->jsonRepository = $this->createMock(DocumentRepositoryInterface::class);
+        $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
 
         $this->projector = new OrganizerSearchProjector(
             $this->jsonRepository,
