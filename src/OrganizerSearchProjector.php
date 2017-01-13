@@ -7,13 +7,15 @@ use Broadway\EventHandling\EventListenerInterface;
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
+use CultuurNet\UDB3\ReadModel\JsonDocument;
+use GuzzleHttp\ClientInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 
-class OrganizerSearchProjector implements EventListenerInterface
+class OrganizerSearchProjector implements EventListenerInterface, LoggerAwareInterface
 {
-    /**
-     * @var DocumentRepositoryInterface
-     */
-    private $organizerJsonLdRepository;
+    use LoggerAwareTrait;
 
     /**
      * @var DocumentRepositoryInterface
@@ -21,15 +23,21 @@ class OrganizerSearchProjector implements EventListenerInterface
     private $organizerSearchRepository;
 
     /**
-     * @param DocumentRepositoryInterface $organizerJsonLdRepository
+     * @var ClientInterface
+     */
+    private $httpClient;
+
+    /**
      * @param DocumentRepositoryInterface $organizerSearchRepository
+     * @param ClientInterface $httpClient
      */
     public function __construct(
-        DocumentRepositoryInterface $organizerJsonLdRepository,
-        DocumentRepositoryInterface $organizerSearchRepository
+        DocumentRepositoryInterface $organizerSearchRepository,
+        ClientInterface $httpClient
     ) {
-        $this->organizerJsonLdRepository = $organizerJsonLdRepository;
         $this->organizerSearchRepository = $organizerSearchRepository;
+        $this->httpClient = $httpClient;
+        $this->logger = new NullLogger();
     }
 
     /**
@@ -60,11 +68,27 @@ class OrganizerSearchProjector implements EventListenerInterface
      */
     private function handleOrganizerProjectedToJSONLD(OrganizerProjectedToJSONLD $organizerProjectedToJSONLD)
     {
-        $organizerDocument = $this->organizerJsonLdRepository->get(
-            $organizerProjectedToJSONLD->getId()
-        );
+        $response = $this->httpClient->request('GET', $organizerProjectedToJSONLD->getIri());
 
-        $this->organizerSearchRepository->save($organizerDocument);
+        if ($response->getStatusCode() == 200) {
+            $jsonLd = $response->getBody();
+
+            $jsonDocument = new JsonDocument(
+                $organizerProjectedToJSONLD->getId(),
+                $jsonLd
+            );
+
+            $this->organizerSearchRepository->save($jsonDocument);
+        } else {
+            $this->logger->error(
+                'Could not retrieve organizer JSON-LD from url for indexation.',
+                [
+                    'id' => $organizerProjectedToJSONLD->getId(),
+                    'url' => $organizerProjectedToJSONLD->getIri(),
+                    'response' => $response
+                ]
+            );
+        }
     }
 
     /**
