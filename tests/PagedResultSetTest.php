@@ -17,9 +17,13 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
 
         $results = [
             (new JsonDocument(123))
-                ->withBody(['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']),
+                ->withBody(
+                    (object) ['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']
+                ),
             (new JsonDocument(456))
-                ->withBody(['@id' => 'http://acme.com/organizer/456', 'name' => 'Het Depot']),
+                ->withBody(
+                    (object) ['@id' => 'http://acme.com/organizer/456', 'name' => 'Het Depot']
+                ),
         ];
 
         $pagedResultSet = new PagedResultSet(
@@ -43,7 +47,9 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
 
         $results = [
             (new JsonDocument(123))
-                ->withBody(['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']),
+                ->withBody(
+                    (object) ['@id' => 'http://acme.com/organizer/123', 'name' => 'STUK']
+                ),
             'foo',
             'bar',
         ];

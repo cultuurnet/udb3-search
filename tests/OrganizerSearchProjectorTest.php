@@ -37,9 +37,9 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->httpClient = $this->getMock(ClientInterface::class);
-        $this->searchRepository = $this->getMock(DocumentRepositoryInterface::class);
-        $this->logger = $this->getMock(LoggerInterface::class);
+        $this->httpClient = $this->createMock(ClientInterface::class);
+        $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->projector = new OrganizerSearchProjector(
             $this->searchRepository,
