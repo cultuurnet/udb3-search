@@ -2,7 +2,7 @@
 
 namespace CultuurNet\UDB3\Search;
 
-use ValueObjects\String\String as StringLiteral;
+use ValueObjects\StringLiteral\StringLiteral;
 use ValueObjects\Web\Url;
 
 class OrganizerSearchParameters extends AbstractSearchParameters
