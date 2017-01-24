@@ -11,6 +11,7 @@
   ],
   "require": {
     "cultuurnet/udb3": "~0.1",
+    "guzzlehttp/guzzle": "^6.2",
     "nicolopignatelli/valueobjects": "~3.0"
   },
   "require-dev": {
