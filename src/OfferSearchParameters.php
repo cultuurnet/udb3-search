@@ -8,15 +8,15 @@ use ValueObjects\Web\Url;
 class OfferSearchParameters extends AbstractSearchParameters
 {
     /**
-     * @var StringLiteral
+     * @var RegionId
      */
     private $regionId;
 
     /**
-     * @param StringLiteral $regionId
+     * @param RegionId $regionId
      * @return OfferSearchParameters
      */
-    public function withRegionId(StringLiteral $regionId)
+    public function withRegionId(RegionId $regionId)
     {
         $c = clone $this;
         $c->regionId = $regionId;
@@ -24,7 +24,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @return StringLiteral
+     * @return RegionId
      */
     public function getRegionId()
     {
