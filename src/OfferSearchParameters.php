@@ -2,8 +2,7 @@
 
 namespace CultuurNet\UDB3\Search;
 
-use ValueObjects\StringLiteral\StringLiteral;
-use ValueObjects\Web\Url;
+use CultuurNet\UDB3\Search\Region\RegionId;
 
 class OfferSearchParameters extends AbstractSearchParameters
 {

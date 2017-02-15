@@ -2,9 +2,8 @@
 
 namespace CultuurNet\UDB3\Search;
 
+use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
-use ValueObjects\StringLiteral\StringLiteral;
-use ValueObjects\Web\Url;
 
 class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +33,8 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withRegionId(new StringLiteral('24062'));
+            ->withRegionId(new RegionId('24062'));
 
-        $this->assertEquals(new StringLiteral('24062'), $specificParameters->getRegionId());
+        $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
     }
 }
