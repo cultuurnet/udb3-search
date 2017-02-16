@@ -32,5 +32,4 @@ class RegionNameMap
 
         return $this->map[$regionId];
     }
-
 }
