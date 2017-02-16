@@ -1,18 +1,18 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 
-class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
+class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
     public function it_has_configurable_start_and_limit_parameters_with_default_values()
     {
-        $defaultParameters = new OfferSearchParameters();
+        $defaultParameters = new OfferFilterParameters();
 
         $specificParameters = $defaultParameters
             ->withStart(new Natural(20))
@@ -30,7 +30,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
      */
     public function it_has_an_optional_region_id_parameter()
     {
-        $defaultParameters = new OfferSearchParameters();
+        $defaultParameters = new OfferFilterParameters();
 
         $specificParameters = $defaultParameters
             ->withRegionId(new RegionId('24062'));

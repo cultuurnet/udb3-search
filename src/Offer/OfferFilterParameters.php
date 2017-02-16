@@ -1,10 +1,11 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 
-class OfferSearchParameters extends AbstractSearchParameters
+class OfferFilterParameters extends AbstractSearchParameters
 {
     /**
      * @var RegionId
@@ -13,7 +14,7 @@ class OfferSearchParameters extends AbstractSearchParameters
 
     /**
      * @param RegionId $regionId
-     * @return OfferSearchParameters
+     * @return OfferFilterParameters
      */
     public function withRegionId(RegionId $regionId)
     {
