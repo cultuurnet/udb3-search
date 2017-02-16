@@ -7,8 +7,8 @@ use CultuurNet\UDB3\Search\PagedResultSet;
 interface OfferSearchServiceInterface
 {
     /**
-     * @param OfferFilterParameters $filterParameters
+     * @param OfferSearchParameters $searchParameters
      * @return PagedResultSet
      */
-    public function filter(OfferFilterParameters $filterParameters);
+    public function search(OfferSearchParameters $searchParameters);
 }

@@ -12,7 +12,7 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
      */
     public function it_has_configurable_start_and_limit_parameters_with_default_values()
     {
-        $defaultParameters = new OfferFilterParameters();
+        $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
             ->withStart(new Natural(20))
@@ -30,7 +30,7 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
      */
     public function it_has_an_optional_region_id_parameter()
     {
-        $defaultParameters = new OfferFilterParameters();
+        $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
             ->withRegionId(new RegionId('24062'));

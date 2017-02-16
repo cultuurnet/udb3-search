@@ -5,7 +5,7 @@ namespace CultuurNet\UDB3\Search\Offer;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 
-class OfferFilterParameters extends AbstractSearchParameters
+class OfferSearchParameters extends AbstractSearchParameters
 {
     /**
      * @var RegionId
@@ -14,7 +14,7 @@ class OfferFilterParameters extends AbstractSearchParameters
 
     /**
      * @param RegionId $regionId
-     * @return OfferFilterParameters
+     * @return OfferSearchParameters
      */
     public function withRegionId(RegionId $regionId)
     {
