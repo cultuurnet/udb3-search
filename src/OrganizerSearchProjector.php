@@ -3,41 +3,30 @@
 namespace CultuurNet\UDB3\Search;
 
 use Broadway\Domain\DomainMessage;
-use Broadway\EventHandling\EventListenerInterface;
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
-use CultuurNet\UDB3\ReadModel\JsonDocument;
+use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentTransformerInterface;
+use CultuurNet\UDB3\Search\JsonDocument\PassThroughJsonDocumentTransformer;
 use GuzzleHttp\ClientInterface;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\NullLogger;
 
-class OrganizerSearchProjector implements EventListenerInterface, LoggerAwareInterface
+class OrganizerSearchProjector extends AbstractSearchProjector
 {
-    use LoggerAwareTrait;
-
     /**
-     * @var DocumentRepositoryInterface
-     */
-    private $organizerSearchRepository;
-
-    /**
-     * @var ClientInterface
-     */
-    private $httpClient;
-
-    /**
-     * @param DocumentRepositoryInterface $organizerSearchRepository
+     * @param DocumentRepositoryInterface $searchRepository
      * @param ClientInterface $httpClient
+     * @param JsonDocumentTransformerInterface|null $jsonDocumentTransformer
      */
     public function __construct(
-        DocumentRepositoryInterface $organizerSearchRepository,
-        ClientInterface $httpClient
+        DocumentRepositoryInterface $searchRepository,
+        ClientInterface $httpClient,
+        JsonDocumentTransformerInterface $jsonDocumentTransformer = null
     ) {
-        $this->organizerSearchRepository = $organizerSearchRepository;
-        $this->httpClient = $httpClient;
-        $this->logger = new NullLogger();
+        if (is_null($jsonDocumentTransformer)) {
+            $jsonDocumentTransformer = new PassThroughJsonDocumentTransformer();
+        }
+
+        parent::__construct($searchRepository, $httpClient, $jsonDocumentTransformer);
     }
 
     /**
@@ -68,27 +57,10 @@ class OrganizerSearchProjector implements EventListenerInterface, LoggerAwareInt
      */
     private function handleOrganizerProjectedToJSONLD(OrganizerProjectedToJSONLD $organizerProjectedToJSONLD)
     {
-        $response = $this->httpClient->request('GET', $organizerProjectedToJSONLD->getIri());
-
-        if ($response->getStatusCode() == 200) {
-            $jsonLd = $response->getBody();
-
-            $jsonDocument = new JsonDocument(
-                $organizerProjectedToJSONLD->getId(),
-                $jsonLd
-            );
-
-            $this->organizerSearchRepository->save($jsonDocument);
-        } else {
-            $this->logger->error(
-                'Could not retrieve organizer JSON-LD from url for indexation.',
-                [
-                    'id' => $organizerProjectedToJSONLD->getId(),
-                    'url' => $organizerProjectedToJSONLD->getIri(),
-                    'response' => $response
-                ]
-            );
-        }
+        $this->index(
+            $organizerProjectedToJSONLD->getId(),
+            $organizerProjectedToJSONLD->getIri()
+        );
     }
 
     /**
@@ -96,7 +68,7 @@ class OrganizerSearchProjector implements EventListenerInterface, LoggerAwareInt
      */
     private function handleOrganizerDeleted(OrganizerDeleted $organizerDeleted)
     {
-        $this->organizerSearchRepository->remove(
+        $this->remove(
             $organizerDeleted->getOrganizerId()
         );
     }

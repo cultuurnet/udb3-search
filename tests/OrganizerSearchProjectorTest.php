@@ -108,7 +108,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
         $this->logger->expects($this->once())
             ->method('error')
             ->with(
-                'Could not retrieve organizer JSON-LD from url for indexation.',
+                'Could not retrieve JSON-LD from url for indexation.',
                 [
                     'id' => $organizerId,
                     'url' => $organizerUrl,
