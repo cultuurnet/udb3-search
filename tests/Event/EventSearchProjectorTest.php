@@ -10,6 +10,7 @@ use CultuurNet\UDB3\Event\Events\EventProjectedToJSONLD;
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
+use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -34,6 +35,11 @@ class EventSearchProjectorTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
+     * @var TransformingJsonDocumentIndexService
+     */
+    private $indexService;
+
+    /**
      * @var EventSearchProjector
      */
     private $projector;
@@ -44,12 +50,15 @@ class EventSearchProjectorTest extends \PHPUnit_Framework_TestCase
         $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->projector = new EventSearchProjector(
-            $this->searchRepository,
-            $this->httpClient
+        $this->indexService = new TransformingJsonDocumentIndexService(
+            $this->httpClient,
+            new EventJsonDocumentTransformer(),
+            $this->searchRepository
         );
 
-        $this->projector->setLogger($this->logger);
+        $this->indexService->setLogger($this->logger);
+
+        $this->projector = new EventSearchProjector($this->indexService);
     }
 
     /**

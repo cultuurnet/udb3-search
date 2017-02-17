@@ -9,6 +9,8 @@ use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
+use CultuurNet\UDB3\Search\JsonDocument\PassThroughJsonDocumentTransformer;
+use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -31,6 +33,11 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
+     * @var TransformingJsonDocumentIndexService
+     */
+    private $indexService;
+
+    /**
      * @var OrganizerSearchProjector
      */
     private $projector;
@@ -41,12 +48,15 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
         $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->projector = new OrganizerSearchProjector(
-            $this->searchRepository,
-            $this->httpClient
+        $this->indexService = new TransformingJsonDocumentIndexService(
+            $this->httpClient,
+            new PassThroughJsonDocumentTransformer(),
+            $this->searchRepository
         );
 
-        $this->projector->setLogger($this->logger);
+        $this->indexService->setLogger($this->logger);
+
+        $this->projector = new OrganizerSearchProjector($this->indexService);
     }
 
     /**

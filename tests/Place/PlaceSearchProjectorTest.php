@@ -12,6 +12,7 @@ use CultuurNet\UDB3\Place\Events\PlaceDeleted;
 use CultuurNet\UDB3\Place\Events\PlaceProjectedToJSONLD;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
+use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -36,6 +37,11 @@ class PlaceSearchProjectorTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
+     * @var TransformingJsonDocumentIndexService
+     */
+    private $indexService;
+
+    /**
      * @var PlaceSearchProjector
      */
     private $projector;
@@ -46,12 +52,15 @@ class PlaceSearchProjectorTest extends \PHPUnit_Framework_TestCase
         $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
 
-        $this->projector = new PlaceSearchProjector(
-            $this->searchRepository,
-            $this->httpClient
+        $this->indexService = new TransformingJsonDocumentIndexService(
+            $this->httpClient,
+            new PlaceJsonDocumentTransformer(),
+            $this->searchRepository
         );
 
-        $this->projector->setLogger($this->logger);
+        $this->indexService->setLogger($this->logger);
+
+        $this->projector = new PlaceSearchProjector($this->indexService);
     }
 
     /**
