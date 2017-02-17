@@ -34,12 +34,14 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withRegionId(
+            ->withRegion(
                 new RegionId('24062'),
-                new StringLiteral('geoshapes')
+                new StringLiteral('geoshapes'),
+                new StringLiteral('region')
             );
 
         $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
+        $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
     }
 }

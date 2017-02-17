@@ -19,15 +19,25 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $regionIndexName;
 
     /**
+     * @var StringLiteral
+     */
+    private $regionDocumentType;
+
+    /**
      * @param RegionId $regionId
      * @param StringLiteral $regionIndexName
+     * @param StringLiteral $regionDocumentType
      * @return OfferSearchParameters
      */
-    public function withRegionId(RegionId $regionId, StringLiteral $regionIndexName)
-    {
+    public function withRegion(
+        RegionId $regionId,
+        StringLiteral $regionIndexName,
+        StringLiteral $regionDocumentType
+    ) {
         $c = clone $this;
         $c->regionId = $regionId;
         $c->regionIndexName = $regionIndexName;
+        $c->regionDocumentType = $regionDocumentType;
         return $c;
     }
 
@@ -45,5 +55,13 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getRegionIndexName()
     {
         return $this->regionIndexName;
+    }
+
+    /**
+     * @return StringLiteral
+     */
+    public function getRegionDocumentType()
+    {
+        return $this->regionDocumentType;
     }
 }
