@@ -2,7 +2,6 @@
 
 namespace CultuurNet\UDB3\Search;
 
-use Broadway\Domain\DomainMessage;
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
@@ -30,32 +29,23 @@ class OrganizerSearchProjector extends AbstractSearchProjector
     }
 
     /**
-     * @param DomainMessage $domainMessage
+     * @return array
      *
      * @uses handleOrganizerProjectedToJSONLD
      * @uses handleOrganizerDeleted
      */
-    public function handle(DomainMessage $domainMessage)
+    protected function getEventHandlers()
     {
-        $handlers = [
+        return [
             OrganizerProjectedToJSONLD::class => 'handleOrganizerProjectedToJSONLD',
             OrganizerDeleted::class => 'handleOrganizerDeleted',
         ];
-
-        $payload = $domainMessage->getPayload();
-        $payloadType = get_class($payload);
-
-        if (array_key_exists($payloadType, $handlers) &&
-            method_exists($this, $handlers[$payloadType])) {
-            $handler = $handlers[$payloadType];
-            $this->{$handler}($payload);
-        }
     }
 
     /**
      * @param OrganizerProjectedToJSONLD $organizerProjectedToJSONLD
      */
-    private function handleOrganizerProjectedToJSONLD(OrganizerProjectedToJSONLD $organizerProjectedToJSONLD)
+    protected function handleOrganizerProjectedToJSONLD(OrganizerProjectedToJSONLD $organizerProjectedToJSONLD)
     {
         $this->index(
             $organizerProjectedToJSONLD->getId(),
@@ -66,7 +56,7 @@ class OrganizerSearchProjector extends AbstractSearchProjector
     /**
      * @param OrganizerDeleted $organizerDeleted
      */
-    private function handleOrganizerDeleted(OrganizerDeleted $organizerDeleted)
+    protected function handleOrganizerDeleted(OrganizerDeleted $organizerDeleted)
     {
         $this->remove(
             $organizerDeleted->getOrganizerId()
