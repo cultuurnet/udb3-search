@@ -3,9 +3,12 @@
 namespace CultuurNet\UDB3\Search\Event;
 
 use CultuurNet\UDB3\ReadModel\JsonDocument;
+use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
 
 class EventJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
 {
+    use AssertJsonDocumentTrait;
+
     /**
      * @var EventJsonDocumentTransformer
      */
@@ -29,23 +32,6 @@ class EventJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
 
         $actualDocument = $this->transformer->transformForIndexation($originalDocument);
 
-        $this->assertJsonDocumentEquals($expectedDocument, $actualDocument);
-    }
-
-    /**
-     * @param JsonDocument $expected
-     * @param JsonDocument $actual
-     */
-    private function assertJsonDocumentEquals(JsonDocument $expected, JsonDocument $actual)
-    {
-        $expectedBody = $expected->getBody();
-        $expectedJsonPretty = json_encode($expectedBody, JSON_PRETTY_PRINT);
-        $expected = new JsonDocument($expected->getId(), $expectedJsonPretty);
-
-        $actualBody = $actual->getBody();
-        $actualJsonPretty = json_encode($actualBody, JSON_PRETTY_PRINT);
-        $actual = new JsonDocument($actual->getId(), $actualJsonPretty);
-
-        $this->assertEquals($expected, $actual);
+        $this->assertJsonDocumentEquals($this, $expectedDocument, $actualDocument);
     }
 }
