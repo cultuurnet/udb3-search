@@ -1,10 +1,11 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Organizer;
 
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
+use CultuurNet\UDB3\Search\AbstractSearchProjector;
 use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentTransformerInterface;
 use CultuurNet\UDB3\Search\JsonDocument\PassThroughJsonDocumentTransformer;
 use GuzzleHttp\ClientInterface;

@@ -1,6 +1,8 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Organizer;
+
+use CultuurNet\UDB3\Search\PagedResultSet;
 
 interface OrganizerSearchServiceInterface
 {
