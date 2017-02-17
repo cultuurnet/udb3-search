@@ -5,35 +5,14 @@ namespace CultuurNet\UDB3\Search\Organizer;
 use Broadway\Domain\DateTime;
 use Broadway\Domain\DomainMessage;
 use Broadway\Domain\Metadata;
-use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
-use CultuurNet\UDB3\ReadModel\JsonDocument;
-use CultuurNet\UDB3\Search\JsonDocument\PassThroughJsonDocumentTransformer;
-use CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Psr7\Response;
-use Psr\Log\LoggerInterface;
+use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentIndexServiceInterface;
 
 class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var DocumentRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $searchRepository;
-
-    /**
-     * @var ClientInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $httpClient;
-
-    /**
-     * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $logger;
-
-    /**
-     * @var \CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService
+     * @var JsonDocumentIndexServiceInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     private $indexService;
 
@@ -44,18 +23,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->httpClient = $this->createMock(ClientInterface::class);
-        $this->searchRepository = $this->createMock(DocumentRepositoryInterface::class);
-        $this->logger = $this->createMock(LoggerInterface::class);
-
-        $this->indexService = new TransformingJsonDocumentIndexService(
-            $this->httpClient,
-            new PassThroughJsonDocumentTransformer(),
-            $this->searchRepository
-        );
-
-        $this->indexService->setLogger($this->logger);
-
+        $this->indexService = $this->createMock(JsonDocumentIndexServiceInterface::class);
         $this->projector = new OrganizerSearchProjector($this->indexService);
     }
 
@@ -64,11 +32,8 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
      */
     public function it_indexes_new_and_updated_organizers()
     {
-        $organizerId = '45df0ff9-957f-4abe-8c97-114adf8296db';
-        $organizerUrl = 'organizers/' . $organizerId;
-        $organizerJson = file_get_contents(__DIR__ . '/data/organizer.json');
-
-        $organizerDocument = new JsonDocument($organizerId, $organizerJson);
+        $organizerId = '23017cb7-e515-47b4-87c4-780735acc942';
+        $organizerUrl = 'organizer/' . $organizerId;
 
         $domainMessage = new DomainMessage(
             $organizerId,
@@ -78,16 +43,9 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
             DateTime::now()
         );
 
-        $response = new Response(200, array(), $organizerJson);
-
-        $this->httpClient->expects($this->once())
-            ->method('request')
-            ->with('GET', $organizerUrl)
-            ->willReturn($response);
-
-        $this->searchRepository->expects($this->once())
-            ->method('save')
-            ->with($organizerDocument);
+        $this->indexService->expects($this->once())
+            ->method('index')
+            ->with($organizerId, $organizerUrl);
 
         $this->projector->handle($domainMessage);
     }
@@ -95,46 +53,9 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_logs_an_error_when_the_jsonld_can_not_be_found()
+    public function it_removes_deleted_Organizers_from_the_index()
     {
-        $organizerId = '45df0ff9-957f-4abe-8c97-114adf8296db';
-        $organizerUrl = 'organizers/' . $organizerId;
-
-        $domainMessage = new DomainMessage(
-            $organizerId,
-            0,
-            new Metadata(),
-            new OrganizerProjectedToJSONLD($organizerId, $organizerUrl),
-            DateTime::now()
-        );
-
-        $response = new Response(404);
-
-        $this->httpClient->expects($this->once())
-            ->method('request')
-            ->with('GET', $organizerUrl)
-            ->willReturn($response);
-
-        $this->logger->expects($this->once())
-            ->method('error')
-            ->with(
-                'Could not retrieve JSON-LD from url for indexation.',
-                [
-                    'id' => $organizerId,
-                    'url' => $organizerUrl,
-                    'response' => $response
-                ]
-            );
-
-        $this->projector->handle($domainMessage);
-    }
-
-    /**
-     * @test
-     */
-    public function it_removes_deleted_organizers_from_the_index()
-    {
-        $organizerId = '45df0ff9-957f-4abe-8c97-114adf8296db';
+        $organizerId = '23017cb7-e515-47b4-87c4-780735acc942';
 
         $domainMessage = new DomainMessage(
             $organizerId,
@@ -144,7 +65,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
             DateTime::now()
         );
 
-        $this->searchRepository->expects($this->once())
+        $this->indexService->expects($this->once())
             ->method('remove')
             ->with($organizerId);
 
