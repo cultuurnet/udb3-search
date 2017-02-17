@@ -24,7 +24,7 @@ abstract class AbstractSearchParameters
 
     /**
      * @param Natural $start
-     * @return self
+     * @return static
      */
     public function withStart(Natural $start)
     {
@@ -43,7 +43,7 @@ abstract class AbstractSearchParameters
 
     /**
      * @param Natural $limit
-     * @return self
+     * @return static
      */
     public function withLimit(Natural $limit)
     {
