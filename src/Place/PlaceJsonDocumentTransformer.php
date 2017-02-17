@@ -7,7 +7,7 @@ use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentTransformerInterface;
 
 class PlaceJsonDocumentTransformer implements JsonDocumentTransformerInterface
 {
-    public function transformForIndexation(JsonDocument $jsonDocument)
+    public function transform(JsonDocument $jsonDocument)
     {
         $body = $jsonDocument->getBody();
         $indexBody = new \stdClass();

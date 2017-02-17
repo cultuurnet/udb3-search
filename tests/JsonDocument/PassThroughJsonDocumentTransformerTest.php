@@ -26,7 +26,7 @@ class PassThroughJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
     {
         $originalDocument = new JsonDocument('c9b1a418-3e9c-450f-8d63-21e155e730ef', '{"foo":"bar"}');
         $expectedDocument = $originalDocument;
-        $actualDocument = $this->transformer->transformForIndexation($originalDocument);
+        $actualDocument = $this->transformer->transform($originalDocument);
         $this->assertJsonDocumentEquals($this, $expectedDocument, $actualDocument);
     }
 }

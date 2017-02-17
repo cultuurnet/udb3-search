@@ -30,7 +30,7 @@ class EventJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
         $expected = file_get_contents(__DIR__ . '/data/indexed-with-geocoordinates.json');
         $expectedDocument = new JsonDocument('23017cb7-e515-47b4-87c4-780735acc942', $expected);
 
-        $actualDocument = $this->transformer->transformForIndexation($originalDocument);
+        $actualDocument = $this->transformer->transform($originalDocument);
 
         $this->assertJsonDocumentEquals($this, $expectedDocument, $actualDocument);
     }

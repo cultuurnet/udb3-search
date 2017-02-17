@@ -10,7 +10,7 @@ class PassThroughJsonDocumentTransformer implements JsonDocumentTransformerInter
      * @param JsonDocument $jsonDocument
      * @return JsonDocument
      */
-    public function transformForIndexation(JsonDocument $jsonDocument)
+    public function transform(JsonDocument $jsonDocument)
     {
         return $jsonDocument;
     }

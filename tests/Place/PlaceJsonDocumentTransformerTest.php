@@ -30,7 +30,7 @@ class PlaceJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
         $expected = file_get_contents(__DIR__ . '/data/indexed-with-geocoordinates.json');
         $expectedDocument = new JsonDocument('179c89c5-dba4-417b-ae96-62e7a12c2405', $expected);
 
-        $actualDocument = $this->transformer->transformForIndexation($originalDocument);
+        $actualDocument = $this->transformer->transform($originalDocument);
 
         $this->assertJsonDocumentEquals($this, $expectedDocument, $actualDocument);
     }

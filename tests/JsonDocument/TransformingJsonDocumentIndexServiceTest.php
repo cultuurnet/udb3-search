@@ -71,7 +71,7 @@ class TransformingJsonDocumentIndexServiceTest extends \PHPUnit_Framework_TestCa
             ->willReturn(new Response(200, [], $jsonLd));
 
         $this->transformer->expects($this->once())
-            ->method('transformForIndexation')
+            ->method('transform')
             ->with($jsonDocument)
             ->willReturn($transformedJsonDocument);
 

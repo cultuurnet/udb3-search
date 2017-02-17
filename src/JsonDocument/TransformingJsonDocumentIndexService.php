@@ -63,7 +63,7 @@ class TransformingJsonDocumentIndexService implements
             );
 
             $jsonDocument = $this->jsonDocumentTransformer
-                ->transformForIndexation($jsonDocument);
+                ->transform($jsonDocument);
 
             $this->searchRepository->save($jsonDocument);
         } else {

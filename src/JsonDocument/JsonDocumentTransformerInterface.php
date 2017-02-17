@@ -10,5 +10,5 @@ interface JsonDocumentTransformerInterface
      * @param JsonDocument $jsonDocument
      * @return JsonDocument
      */
-    public function transformForIndexation(JsonDocument $jsonDocument);
+    public function transform(JsonDocument $jsonDocument);
 }
