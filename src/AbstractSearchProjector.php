@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Search;
 
 use Broadway\Domain\DomainMessage;
 use Broadway\EventHandling\EventListenerInterface;
+use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentIndexServiceInterface;
 
 abstract class AbstractSearchProjector implements EventListenerInterface
 {

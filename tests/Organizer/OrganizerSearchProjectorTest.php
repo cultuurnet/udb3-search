@@ -10,7 +10,7 @@ use CultuurNet\UDB3\Organizer\Events\OrganizerDeleted;
 use CultuurNet\UDB3\Organizer\OrganizerProjectedToJSONLD;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\JsonDocument\PassThroughJsonDocumentTransformer;
-use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
+use CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -33,7 +33,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
-     * @var TransformingJsonDocumentIndexService
+     * @var \CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService
      */
     private $indexService;
 

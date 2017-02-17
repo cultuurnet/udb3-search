@@ -1,10 +1,9 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\JsonDocument;
 
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
-use CultuurNet\UDB3\Search\JsonDocument\JsonDocumentTransformerInterface;
 use GuzzleHttp\ClientInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;

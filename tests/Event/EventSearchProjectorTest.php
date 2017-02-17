@@ -10,7 +10,7 @@ use CultuurNet\UDB3\Event\Events\EventProjectedToJSONLD;
 use CultuurNet\UDB3\Event\ReadModel\DocumentRepositoryInterface;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
-use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
+use CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;

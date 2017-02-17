@@ -12,7 +12,7 @@ use CultuurNet\UDB3\Place\Events\PlaceDeleted;
 use CultuurNet\UDB3\Place\Events\PlaceProjectedToJSONLD;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
-use CultuurNet\UDB3\Search\TransformingJsonDocumentIndexService;
+use CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Psr\Log\LoggerInterface;
@@ -37,7 +37,7 @@ class PlaceSearchProjectorTest extends \PHPUnit_Framework_TestCase
     private $logger;
 
     /**
-     * @var TransformingJsonDocumentIndexService
+     * @var \CultuurNet\UDB3\Search\JsonDocument\TransformingJsonDocumentIndexService
      */
     private $indexService;
 
