@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\JsonDocument\Testing;
 
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 

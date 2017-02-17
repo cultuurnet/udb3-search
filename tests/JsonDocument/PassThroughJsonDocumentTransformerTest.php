@@ -3,7 +3,7 @@
 namespace CultuurNet\UDB3\Search\JsonDocument;
 
 use CultuurNet\UDB3\ReadModel\JsonDocument;
-use CultuurNet\UDB3\Search\AssertJsonDocumentTrait;
+use CultuurNet\UDB3\Search\JsonDocument\Testing\AssertJsonDocumentTrait;
 
 class PassThroughJsonDocumentTransformerTest extends \PHPUnit_Framework_TestCase
 {
