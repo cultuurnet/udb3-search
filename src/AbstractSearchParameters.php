@@ -68,7 +68,7 @@ abstract class AbstractSearchParameters
 
     /**
      * @param AbstractQueryString $queryString
-     * @return AbstractSearchParameters
+     * @return static
      */
     public function withQueryString(AbstractQueryString $queryString)
     {
