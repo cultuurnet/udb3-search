@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
@@ -24,6 +25,25 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(new Natural(20), $specificParameters->getStart());
         $this->assertEquals(new Natural(10), $specificParameters->getLimit());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_query_string_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $queryString = new MockQueryString('foo AND bar');
+
+        $specificParameters = $defaultParameters
+            ->withQueryString($queryString);
+
+        $this->assertFalse($defaultParameters->hasQueryString());
+        $this->assertNull($defaultParameters->getQueryString());
+
+        $this->assertTrue($specificParameters->hasQueryString());
+        $this->assertEquals($queryString, $specificParameters->getQueryString());
     }
 
     /**
