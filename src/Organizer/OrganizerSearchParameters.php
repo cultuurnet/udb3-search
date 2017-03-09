@@ -1,7 +1,8 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Organizer;
 
+use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use ValueObjects\StringLiteral\StringLiteral;
 use ValueObjects\Web\Url;
 

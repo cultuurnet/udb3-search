@@ -1,6 +1,6 @@
 <?php
 
-namespace CultuurNet\UDB3\Search;
+namespace CultuurNet\UDB3\Search\Organizer;
 
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;

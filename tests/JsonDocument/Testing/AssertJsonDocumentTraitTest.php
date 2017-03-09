@@ -1,0 +1,62 @@
+<?php
+
+namespace CultuurNet\UDB3\Search\JsonDocument\Testing;
+
+use CultuurNet\UDB3\ReadModel\JsonDocument;
+
+class AssertJsonDocumentTraitTest extends \PHPUnit_Framework_TestCase
+{
+    use AssertJsonDocumentTrait;
+
+    /**
+     * @test
+     */
+    public function it_can_convert_compact_json_documents_to_pretty_print_json_documents()
+    {
+        $data = ['foo' => 'bar'];
+
+        $compact = json_encode($data);
+        $prettyPrint = json_encode($data, JSON_PRETTY_PRINT);
+
+        $originalDocument = new JsonDocument('1', $compact);
+        $expectedDocument = new JsonDocument('1', $prettyPrint);
+
+        $actualDocument = $this->convertJsonDocumentFromCompactToPrettyPrint($originalDocument);
+
+        $this->assertEquals($expectedDocument, $actualDocument);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_convert_pretty_print_json_documents_to_compact_json_documents()
+    {
+        $data = ['foo' => 'bar'];
+
+        $prettyPrint = json_encode($data, JSON_PRETTY_PRINT);
+        $compact = json_encode($data);
+
+        $originalDocument = new JsonDocument('1', $prettyPrint);
+        $expectedDocument = new JsonDocument('1', $compact);
+
+        $actualDocument = $this->convertJsonDocumentFromPrettyPrintToCompact($originalDocument);
+
+        $this->assertEquals($expectedDocument, $actualDocument);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_assert_two_json_documents_are_equal_even_if_one_is_compact_and_the_other_is_pretty_print()
+    {
+        $data = ['foo' => 'bar'];
+
+        $compact = json_encode($data);
+        $prettyPrint = json_encode($data, JSON_PRETTY_PRINT);
+
+        $compactDocument = new JsonDocument('1', $compact);
+        $prettyPrintDocument = new JsonDocument('1', $prettyPrint);
+
+        $this->assertJsonDocumentEquals($this, $compactDocument, $prettyPrintDocument);
+    }
+}
