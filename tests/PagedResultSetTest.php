@@ -54,10 +54,8 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
             'bar',
         ];
 
-        $this->setExpectedException(
-            \InvalidArgumentException::class,
-            'Results should be an array of JsonDocument objects.'
-        );
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Results should be an array of JsonDocument objects.');
 
         new PagedResultSet(
             $total,
