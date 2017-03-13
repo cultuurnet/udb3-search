@@ -48,18 +48,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param LabelName $labelName
-     * @return OfferSearchParameters
-     */
-    public function withLabel(
-        LabelName $labelName
-    ) {
-        $c = clone $this;
-        $c->labels[] = $labelName;
-        return $c;
-    }
-
-    /**
      * @param LabelName[] ...$labelNames
      * @return OfferSearchParameters
      */
