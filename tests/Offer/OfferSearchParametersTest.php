@@ -74,14 +74,14 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withLabel(new LabelName('foo'))
+            ->withLabels(new LabelName('foo'))
             ->withLabels(
                 ...[
                     new LabelName('bar'),
                     new LabelName('baz'),
                 ]
             )
-            ->withLabel(new LabelName('foobar'));
+            ->withLabels(new LabelName('foobar'));
 
         $expected = [
             new LabelName('foo'),
