@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -63,5 +64,36 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
         $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_label_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLabel(new LabelName('foo'))
+            ->withLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withLabel(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLabels());
+        $this->assertEmpty($defaultParameters->getLabels());
+
+        $this->assertTrue($specificParameters->hasLabels());
+        $this->assertEquals($expected, $specificParameters->getLabels());
     }
 }
