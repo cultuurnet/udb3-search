@@ -30,6 +30,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $labels = [];
 
     /**
+     * @var LabelName[]
+     */
+    private $locationLabels = [];
+
+    /**
+     * @var LabelName[]
+     */
+    private $organizerLabels = [];
+
+    /**
      * @param RegionId $regionId
      * @param StringLiteral $regionIndexName
      * @param StringLiteral $regionDocumentType
@@ -56,6 +66,30 @@ class OfferSearchParameters extends AbstractSearchParameters
     ) {
         $c = clone $this;
         $c->labels = array_merge($c->labels, $labelNames);
+        return $c;
+    }
+
+    /**
+     * @param LabelName[] ...$labelNames
+     * @return OfferSearchParameters
+     */
+    public function withLocationLabels(
+        LabelName ...$labelNames
+    ) {
+        $c = clone $this;
+        $c->locationLabels = array_merge($c->locationLabels, $labelNames);
+        return $c;
+    }
+
+    /**
+     * @param LabelName[] ...$labelNames
+     * @return OfferSearchParameters
+     */
+    public function withOrganizerLabels(
+        LabelName ...$labelNames
+    ) {
+        $c = clone $this;
+        $c->organizerLabels = array_merge($c->organizerLabels, $labelNames);
         return $c;
     }
 
@@ -97,5 +131,37 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getLabels()
     {
         return $this->labels;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLocationLabels()
+    {
+        return !empty($this->locationLabels);
+    }
+
+    /**
+     * @return LabelName[]
+     */
+    public function getLocationLabels()
+    {
+        return $this->locationLabels;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOrganizerLabels()
+    {
+        return !empty($this->organizerLabels);
+    }
+
+    /**
+     * @return LabelName[]
+     */
+    public function getOrganizerLabels()
+    {
+        return $this->organizerLabels;
     }
 }

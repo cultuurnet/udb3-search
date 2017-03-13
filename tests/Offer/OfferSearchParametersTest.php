@@ -69,7 +69,7 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_has_an_optional_label_parameter()
+    public function it_has_an_optional_labels_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
 
@@ -95,5 +95,71 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($specificParameters->hasLabels());
         $this->assertEquals($expected, $specificParameters->getLabels());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_location_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLocationLabels(new LabelName('foo'))
+            ->withLocationLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withLocationLabels(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLocationLabels());
+        $this->assertEmpty($defaultParameters->getLocationLabels());
+
+        $this->assertTrue($specificParameters->hasLocationLabels());
+        $this->assertEquals($expected, $specificParameters->getLocationLabels());
+
+        $this->assertFalse($specificParameters->hasLabels());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_organizer_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withOrganizerLabels(new LabelName('foo'))
+            ->withOrganizerLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withOrganizerLabels(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasOrganizerLabels());
+        $this->assertEmpty($defaultParameters->getOrganizerLabels());
+
+        $this->assertTrue($specificParameters->hasOrganizerLabels());
+        $this->assertEquals($expected, $specificParameters->getOrganizerLabels());
+
+        $this->assertFalse($specificParameters->hasLabels());
     }
 }
