@@ -61,9 +61,8 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param LabelName[] ...$labelNames
      * @return OfferSearchParameters
      */
-    public function withLabels(
-        LabelName ...$labelNames
-    ) {
+    public function withLabels(LabelName ...$labelNames)
+    {
         $c = clone $this;
         $c->labels = array_merge($c->labels, $labelNames);
         return $c;
@@ -73,9 +72,8 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param LabelName[] ...$labelNames
      * @return OfferSearchParameters
      */
-    public function withLocationLabels(
-        LabelName ...$labelNames
-    ) {
+    public function withLocationLabels(LabelName ...$labelNames)
+    {
         $c = clone $this;
         $c->locationLabels = array_merge($c->locationLabels, $labelNames);
         return $c;
@@ -85,9 +83,8 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param LabelName[] ...$labelNames
      * @return OfferSearchParameters
      */
-    public function withOrganizerLabels(
-        LabelName ...$labelNames
-    ) {
+    public function withOrganizerLabels(LabelName ...$labelNames)
+    {
         $c = clone $this;
         $c->organizerLabels = array_merge($c->organizerLabels, $labelNames);
         return $c;
