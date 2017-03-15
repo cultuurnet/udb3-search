@@ -64,4 +64,46 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
         $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
     }
+
+    /**
+     * @test
+     */
+    public function it_has_optional_age_range_parameters()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $minAgeParameters = $defaultParameters
+            ->withMinimumAge(new Natural(5));
+
+        $maxAgeParameters = $defaultParameters
+            ->withMaximumAge(new Natural(10));
+
+        $rangeParameters = $defaultParameters
+            ->withMinimumAge(new Natural(0))
+            ->withMaximumAge(new Natural(7));
+
+        $this->assertFalse($defaultParameters->hasAgeRange());
+        $this->assertFalse($defaultParameters->hasMinimumAge());
+        $this->assertFalse($defaultParameters->hasMaximumAge());
+        $this->assertNull($defaultParameters->getMinimumAge());
+        $this->assertNull($defaultParameters->getMaximumAge());
+
+        $this->assertTrue($minAgeParameters->hasAgeRange());
+        $this->assertTrue($minAgeParameters->hasMinimumAge());
+        $this->assertFalse($minAgeParameters->hasMaximumAge());
+        $this->assertEquals(new Natural(5), $minAgeParameters->getMinimumAge());
+        $this->assertNull($minAgeParameters->getMaximumAge());
+
+        $this->assertTrue($maxAgeParameters->hasAgeRange());
+        $this->assertFalse($maxAgeParameters->hasMinimumAge());
+        $this->assertTrue($maxAgeParameters->hasMaximumAge());
+        $this->assertNull($maxAgeParameters->getMinimumAge());
+        $this->assertEquals(new Natural(10), $maxAgeParameters->getMaximumAge());
+
+        $this->assertTrue($rangeParameters->hasAgeRange());
+        $this->assertTrue($rangeParameters->hasMinimumAge());
+        $this->assertTrue($rangeParameters->hasMaximumAge());
+        $this->assertEquals(new Natural(0), $rangeParameters->getMinimumAge());
+        $this->assertEquals(new Natural(7), $rangeParameters->getMaximumAge());
+    }
 }
