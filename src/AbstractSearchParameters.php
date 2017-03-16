@@ -16,10 +16,16 @@ abstract class AbstractSearchParameters
      */
     private $limit;
 
+    /**
+     * @var AbstractQueryString|null
+     */
+    private $queryString;
+
     public function __construct()
     {
         $this->start = new Natural(0);
         $this->limit = new Natural(30);
+        $this->queryString = null;
     }
 
     /**
@@ -58,5 +64,32 @@ abstract class AbstractSearchParameters
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @param AbstractQueryString $queryString
+     * @return static
+     */
+    public function withQueryString(AbstractQueryString $queryString)
+    {
+        $c = clone $this;
+        $c->queryString = $queryString;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasQueryString()
+    {
+        return (bool) $this->queryString;
+    }
+
+    /**
+     * @return AbstractQueryString|null
+     */
+    public function getQueryString()
+    {
+        return $this->queryString;
     }
 }
