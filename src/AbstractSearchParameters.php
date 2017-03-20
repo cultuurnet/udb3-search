@@ -23,16 +23,23 @@ abstract class AbstractSearchParameters
     private $queryString;
 
     /**
-     * @var Language
+     * @var Language[]
      */
-    private $textLanguage;
+    private $textLanguages;
 
     public function __construct()
     {
         $this->start = new Natural(0);
         $this->limit = new Natural(30);
+
+        $this->textLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
         $this->queryString = null;
-        $this->textLanguage = null;
     }
 
     /**
@@ -101,29 +108,21 @@ abstract class AbstractSearchParameters
     }
 
     /**
-     * @param Language $textLanguage
+     * @param Language[] $textLanguages
      * @return static
      */
-    public function withTextLanguage(Language $textLanguage)
+    public function withTextLanguages(Language ...$textLanguages)
     {
         $c = clone $this;
-        $c->textLanguage = $textLanguage;
+        $c->textLanguages = $textLanguages;
         return $c;
     }
 
     /**
-     * @return bool
+     * @return Language[]
      */
-    public function hasTextLanguage()
+    public function getTextLanguages()
     {
-        return (bool) $this->textLanguage;
-    }
-
-    /**
-     * @return Language|null
-     */
-    public function getTextLanguage()
-    {
-        return $this->textLanguage;
+        return $this->textLanguages;
     }
 }
