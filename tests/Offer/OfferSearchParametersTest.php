@@ -51,6 +51,31 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_text_languages_parameter_that_has_default_values()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $defaultTextLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
+        $specificTextLanguages = [
+            new Language('nl'),
+        ];
+
+        $specificParameters = $defaultParameters
+            ->withTextLanguages(...$specificTextLanguages);
+
+        $this->assertEquals($defaultTextLanguages, $defaultParameters->getTextLanguages());
+        $this->assertEquals($specificTextLanguages, $specificParameters->getTextLanguages());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_region_id_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
