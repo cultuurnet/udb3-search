@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
+use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -161,5 +162,32 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $specificParameters->getOrganizerLabels());
 
         $this->assertFalse($specificParameters->hasLabels());
+    }
+
+    public function it_has_an_optional_languages_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLanguages(
+                new Language('nl'),
+                new Language('fr')
+            )
+            ->withLanguages(
+                new Language('de')
+            );
+
+        $this->assertFalse($defaultParameters->hasLanguages());
+        $this->assertEmpty($defaultParameters->getLanguages());
+
+        $this->assertTrue($specificParameters->hasLanguages());
+        $this->assertEquals(
+            [
+                new Language('nl'),
+                new Language('fr'),
+                new Language('de'),
+            ],
+            $specificParameters->getLanguages()
+        );
     }
 }
