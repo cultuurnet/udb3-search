@@ -79,9 +79,12 @@ class OfferSearchParameters extends AbstractSearchParameters
     /**
      * @param Natural $minimumAge
      * @return OfferSearchParameters
+     * @throws \InvalidArgumentException
      */
     public function withMinimumAge(Natural $minimumAge)
     {
+        $this->guardRange($minimumAge, $this->getMaximumAge());
+
         $c = clone $this;
         $c->minimumAge = $minimumAge;
         return $c;
@@ -106,9 +109,12 @@ class OfferSearchParameters extends AbstractSearchParameters
     /**
      * @param Natural $maximumAge
      * @return OfferSearchParameters
+     * @throws \InvalidArgumentException
      */
     public function withMaximumAge(Natural $maximumAge)
     {
+        $this->guardRange($this->getMinimumAge(), $maximumAge);
+
         $c = clone $this;
         $c->maximumAge = $maximumAge;
         return $c;
@@ -136,5 +142,21 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAgeRange()
     {
         return $this->hasMinimumAge() || $this->hasMaximumAge();
+    }
+
+    /**
+     * @param Natural|null $minAge
+     * @param Natural|null $maxAge
+     * @throws \InvalidArgumentException
+     */
+    private function guardRange($minAge, $maxAge)
+    {
+        if (!is_null($minAge) && !is_null($maxAge)) {
+            if ($minAge->toInteger() > $maxAge->toInteger()) {
+                throw new \InvalidArgumentException(
+                    'Minimum age should be smaller or equal to maximum age.'
+                );
+            }
+        }
     }
 }

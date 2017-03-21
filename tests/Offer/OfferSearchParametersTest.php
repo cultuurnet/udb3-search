@@ -106,4 +106,19 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Natural(0), $rangeParameters->getMinimumAge());
         $this->assertEquals(new Natural(7), $rangeParameters->getMaximumAge());
     }
+
+    /**
+     * @test
+     */
+    public function it_throws_invalid_argument_exception_when_minimum_age_is_not_smaller_then_maximum_age()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Minimum age should be smaller or equal to maximum age.');
+
+        $defaultParameters
+            ->withMinimumAge(new Natural(10))
+            ->withMaximumAge(new Natural(5));
+    }
 }
