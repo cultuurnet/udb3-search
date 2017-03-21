@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -120,5 +121,102 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters
             ->withMinimumAge(new Natural(10))
             ->withMaximumAge(new Natural(5));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLabels(new LabelName('foo'))
+            ->withLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withLabels(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLabels());
+        $this->assertEmpty($defaultParameters->getLabels());
+
+        $this->assertTrue($specificParameters->hasLabels());
+        $this->assertEquals($expected, $specificParameters->getLabels());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_location_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLocationLabels(new LabelName('foo'))
+            ->withLocationLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withLocationLabels(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLocationLabels());
+        $this->assertEmpty($defaultParameters->getLocationLabels());
+
+        $this->assertTrue($specificParameters->hasLocationLabels());
+        $this->assertEquals($expected, $specificParameters->getLocationLabels());
+
+        $this->assertFalse($specificParameters->hasLabels());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_organizer_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withOrganizerLabels(new LabelName('foo'))
+            ->withOrganizerLabels(
+                ...[
+                    new LabelName('bar'),
+                    new LabelName('baz'),
+                ]
+            )
+            ->withOrganizerLabels(new LabelName('foobar'));
+
+        $expected = [
+            new LabelName('foo'),
+            new LabelName('bar'),
+            new LabelName('baz'),
+            new LabelName('foobar'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasOrganizerLabels());
+        $this->assertEmpty($defaultParameters->getOrganizerLabels());
+
+        $this->assertTrue($specificParameters->hasOrganizerLabels());
+        $this->assertEquals($expected, $specificParameters->getOrganizerLabels());
+
+        $this->assertFalse($specificParameters->hasLabels());
     }
 }
