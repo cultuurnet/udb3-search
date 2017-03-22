@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search;
 
+use CultuurNet\UDB3\Language;
 use ValueObjects\Number\Natural;
 
 abstract class AbstractSearchParameters
@@ -21,10 +22,18 @@ abstract class AbstractSearchParameters
      */
     private $queryString;
 
+    /**
+     * @var Language[]
+     */
+    private $textLanguages;
+
     public function __construct()
     {
         $this->start = new Natural(0);
         $this->limit = new Natural(30);
+
+        $this->textLanguages = $this->getDefaultTextLanguages();
+
         $this->queryString = null;
     }
 
@@ -91,5 +100,34 @@ abstract class AbstractSearchParameters
     public function getQueryString()
     {
         return $this->queryString;
+    }
+
+    /**
+     * @param Language[] $textLanguages
+     * @return static
+     */
+    public function withTextLanguages(Language ...$textLanguages)
+    {
+        $c = clone $this;
+        $c->textLanguages = empty($textLanguages) ? $this->getDefaultTextLanguages() : $textLanguages;
+        return $c;
+    }
+
+    /**
+     * @return Language[]
+     */
+    public function getTextLanguages()
+    {
+        return $this->textLanguages;
+    }
+
+    private function getDefaultTextLanguages()
+    {
+        return [
+          new Language('nl'),
+          new Language('fr'),
+          new Language('en'),
+          new Language('de'),
+        ];
     }
 }

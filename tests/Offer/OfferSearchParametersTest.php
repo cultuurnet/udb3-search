@@ -3,12 +3,13 @@
 namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
+use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
-class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
+class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -45,6 +46,53 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($specificParameters->hasQueryString());
         $this->assertEquals($queryString, $specificParameters->getQueryString());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_text_languages_parameter_that_has_default_values()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $defaultTextLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
+        $specificTextLanguages = [
+            new Language('nl'),
+        ];
+
+        $specificParameters = $defaultParameters
+            ->withTextLanguages(...$specificTextLanguages);
+
+        $this->assertEquals($defaultTextLanguages, $defaultParameters->getTextLanguages());
+        $this->assertEquals($specificTextLanguages, $specificParameters->getTextLanguages());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_use_the_default_text_languages_when_specifying_an_empty_list_of_languages()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $defaultTextLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
+        $specificTextLanguages = [];
+
+        $specificParameters = $defaultParameters
+            ->withTextLanguages(...$specificTextLanguages);
+
+        $this->assertEquals($defaultTextLanguages, $specificParameters->getTextLanguages());
     }
 
     /**
