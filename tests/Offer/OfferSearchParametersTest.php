@@ -268,6 +268,9 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($specificParameters->hasLabels());
     }
 
+    /**
+     * @test
+     */
     public function it_has_an_optional_languages_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
