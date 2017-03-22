@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
+use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -121,6 +122,25 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters
             ->withMinimumAge(new Natural(10))
             ->withMaximumAge(new Natural(5));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_price()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withPrice(Price::fromFloat(1.55));
+
+        $this->assertNull($defaultParameters->getPrice());
+        $this->assertFalse($defaultParameters->hasPrice());
+
+        $this->assertEquals(
+            Price::fromFloat(1.55),
+            $specificParameters->getPrice()
+        );
+        $this->assertTrue($specificParameters->hasPrice());
     }
 
     /**

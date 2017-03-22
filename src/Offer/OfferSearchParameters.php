@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
+use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -34,6 +35,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var Natural
      */
     private $maximumAge;
+
+    /**
+     * @var Price
+     */
+    private $price;
 
     /**
      * @var LabelName[]
@@ -191,6 +197,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAgeRange()
     {
         return $this->hasMinimumAge() || $this->hasMaximumAge();
+    }
+
+    /**
+     * @param Price $price
+     * @return OfferSearchParameters
+     */
+    public function withPrice(Price $price)
+    {
+        $c = clone $this;
+        $c->price = $price;
+        return $c;
+    }
+
+    /**
+     * @return Price|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrice()
+    {
+        return (bool) $this->price;
     }
 
     /**
