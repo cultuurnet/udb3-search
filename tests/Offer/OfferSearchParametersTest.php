@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
+use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -169,6 +170,67 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters
             ->withMinimumAge(new Natural(10))
             ->withMaximumAge(new Natural(5));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_price()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withPrice(Price::fromFloat(1.55));
+
+        $this->assertNull($defaultParameters->getPrice());
+        $this->assertFalse($defaultParameters->hasPrice());
+
+        $this->assertEquals(
+            Price::fromFloat(1.55),
+            $specificParameters->getPrice()
+        );
+        $this->assertTrue($specificParameters->hasPrice());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_optional_price_range_parameters()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $minPriceParameters = $defaultParameters
+            ->withMinimumPrice(Price::fromFloat(9.99));
+
+        $maxPriceParameters = $defaultParameters
+            ->withMaximumPrice(Price::fromFloat(19.99));
+
+        $rangeParameters = $defaultParameters
+            ->withMinimumPrice(Price::fromFloat(9.99))
+            ->withMaximumPrice(Price::fromFloat(19.99));
+
+        $this->assertFalse($defaultParameters->hasPriceRange());
+        $this->assertFalse($defaultParameters->hasMinimumPrice());
+        $this->assertFalse($defaultParameters->hasMaximumPrice());
+        $this->assertNull($defaultParameters->getMinimumPrice());
+        $this->assertNull($defaultParameters->getMaximumPrice());
+
+        $this->assertTrue($minPriceParameters->hasPriceRange());
+        $this->assertTrue($minPriceParameters->hasMinimumPrice());
+        $this->assertFalse($minPriceParameters->hasMaximumPrice());
+        $this->assertEquals(Price::fromFloat(9.99), $minPriceParameters->getMinimumPrice());
+        $this->assertNull($minPriceParameters->getMaximumPrice());
+
+        $this->assertTrue($maxPriceParameters->hasPriceRange());
+        $this->assertFalse($maxPriceParameters->hasMinimumPrice());
+        $this->assertTrue($maxPriceParameters->hasMaximumPrice());
+        $this->assertNull($maxPriceParameters->getMinimumPrice());
+        $this->assertEquals(Price::fromFloat(19.99), $maxPriceParameters->getMaximumPrice());
+
+        $this->assertTrue($rangeParameters->hasPriceRange());
+        $this->assertTrue($rangeParameters->hasMinimumPrice());
+        $this->assertTrue($rangeParameters->hasMaximumPrice());
+        $this->assertEquals(Price::fromFloat(9.99), $rangeParameters->getMinimumPrice());
+        $this->assertEquals(Price::fromFloat(19.99), $rangeParameters->getMaximumPrice());
     }
 
     /**

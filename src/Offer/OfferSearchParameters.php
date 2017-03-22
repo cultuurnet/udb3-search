@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
+use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -34,6 +35,21 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var Natural
      */
     private $maximumAge;
+
+    /**
+     * @var Price
+     */
+    private $price;
+
+    /**
+     * @var Price
+     */
+    private $minimumPrice;
+
+    /**
+     * @var Price
+     */
+    private $maximumPrice;
 
     /**
      * @var LabelName[]
@@ -132,7 +148,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withMinimumAge(Natural $minimumAge)
     {
-        $this->guardRange($minimumAge, $this->getMaximumAge());
+        $this->guardAgeRange($minimumAge, $this->getMaximumAge());
 
         $c = clone $this;
         $c->minimumAge = $minimumAge;
@@ -162,7 +178,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withMaximumAge(Natural $maximumAge)
     {
-        $this->guardRange($this->getMinimumAge(), $maximumAge);
+        $this->guardAgeRange($this->getMinimumAge(), $maximumAge);
 
         $c = clone $this;
         $c->maximumAge = $maximumAge;
@@ -191,6 +207,101 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAgeRange()
     {
         return $this->hasMinimumAge() || $this->hasMaximumAge();
+    }
+
+    /**
+     * @param Price $price
+     * @return OfferSearchParameters
+     */
+    public function withPrice(Price $price)
+    {
+        $c = clone $this;
+        $c->price = $price;
+        return $c;
+    }
+
+    /**
+     * @return Price|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrice()
+    {
+        return (bool) $this->price;
+    }
+
+    /**
+     * @param Price $minimumPrice
+     * @return OfferSearchParameters
+     * @throws \InvalidArgumentException
+     */
+    public function withMinimumPrice(Price $minimumPrice)
+    {
+        $this->guardPriceRange($minimumPrice, $this->getMaximumPrice());
+
+        $c = clone $this;
+        $c->minimumPrice = $minimumPrice;
+        return $c;
+    }
+
+    /**
+     * @return Price
+     */
+    public function getMinimumPrice()
+    {
+        return $this->minimumPrice;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMinimumPrice()
+    {
+        return (bool) $this->minimumPrice;
+    }
+
+    /**
+     * @param Price $maximumPrice
+     * @return OfferSearchParameters
+     * @throws \InvalidArgumentException
+     */
+    public function withMaximumPrice(Price $maximumPrice)
+    {
+        $this->guardPriceRange($this->getMinimumPrice(), $maximumPrice);
+
+        $c = clone $this;
+        $c->maximumPrice = $maximumPrice;
+        return $c;
+    }
+
+    /**
+     * @return Price
+     */
+    public function getMaximumPrice()
+    {
+        return $this->maximumPrice;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMaximumPrice()
+    {
+        return (bool) $this->maximumPrice;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPriceRange()
+    {
+        return $this->hasMinimumPrice() || $this->hasMaximumPrice();
     }
 
     /**
@@ -246,12 +357,28 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param Natural|null $maxAge
      * @throws \InvalidArgumentException
      */
-    private function guardRange($minAge, $maxAge)
+    private function guardAgeRange($minAge, $maxAge)
     {
         if (!is_null($minAge) && !is_null($maxAge)) {
             if ($minAge->toInteger() > $maxAge->toInteger()) {
                 throw new \InvalidArgumentException(
                     'Minimum age should be smaller or equal to maximum age.'
+                );
+            }
+        }
+    }
+
+    /**
+     * @param Price|null $minimumPrice
+     * @param Price|null $maximumPrice
+     * @throws \InvalidArgumentException
+     */
+    private function guardPriceRange($minimumPrice, $maximumPrice)
+    {
+        if (!is_null($minimumPrice) && !is_null($maximumPrice)) {
+            if ($minimumPrice->toFloat() > $maximumPrice->toFloat()) {
+                throw new \InvalidArgumentException(
+                    'Minimum price should be smaller or equal to maximum price.'
                 );
             }
         }
