@@ -9,7 +9,7 @@ use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
-class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
+class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -71,6 +71,28 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($defaultTextLanguages, $defaultParameters->getTextLanguages());
         $this->assertEquals($specificTextLanguages, $specificParameters->getTextLanguages());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_use_the_default_text_languages_when_specifying_an_empty_list_of_languages()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $defaultTextLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
+        $specificTextLanguages = [];
+
+        $specificParameters = $defaultParameters
+            ->withTextLanguages(...$specificTextLanguages);
+
+        $this->assertEquals($defaultTextLanguages, $specificParameters->getTextLanguages());
     }
 
     /**

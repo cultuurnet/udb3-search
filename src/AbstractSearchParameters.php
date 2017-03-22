@@ -32,12 +32,7 @@ abstract class AbstractSearchParameters
         $this->start = new Natural(0);
         $this->limit = new Natural(30);
 
-        $this->textLanguages = [
-            new Language('nl'),
-            new Language('fr'),
-            new Language('en'),
-            new Language('de'),
-        ];
+        $this->textLanguages = $this->getDefaultTextLanguages();
 
         $this->queryString = null;
     }
@@ -114,7 +109,7 @@ abstract class AbstractSearchParameters
     public function withTextLanguages(Language ...$textLanguages)
     {
         $c = clone $this;
-        $c->textLanguages = $textLanguages;
+        $c->textLanguages = empty($textLanguages) ? $this->getDefaultTextLanguages() : $textLanguages;
         return $c;
     }
 
@@ -124,5 +119,15 @@ abstract class AbstractSearchParameters
     public function getTextLanguages()
     {
         return $this->textLanguages;
+    }
+
+    private function getDefaultTextLanguages()
+    {
+        return [
+          new Language('nl'),
+          new Language('fr'),
+          new Language('en'),
+          new Language('de'),
+        ];
     }
 }
