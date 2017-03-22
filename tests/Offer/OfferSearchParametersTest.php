@@ -297,4 +297,29 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
             $specificParameters->getLanguages()
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_has_unique_optional_languages_as_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLanguages(
+                new Language('nl'),
+                new Language('fr')
+            )
+            ->withLanguages(
+                new Language('nl')
+            );
+
+        $this->assertEquals(
+            [
+                new Language('nl'),
+                new Language('fr'),
+            ],
+            $specificParameters->getLanguages()
+        );
+    }
 }

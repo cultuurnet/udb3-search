@@ -254,7 +254,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function withLanguages(Language ...$languages)
     {
         $c = clone $this;
-        $c->languages = array_merge($this->languages, $languages);
+        $c->languages = array_unique(array_merge($this->languages, $languages));
         return $c;
     }
 
