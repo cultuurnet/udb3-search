@@ -9,7 +9,7 @@ use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
-class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
+class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
@@ -76,6 +76,28 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_should_use_the_default_text_languages_when_specifying_an_empty_list_of_languages()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $defaultTextLanguages = [
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
+        ];
+
+        $specificTextLanguages = [];
+
+        $specificParameters = $defaultParameters
+            ->withTextLanguages(...$specificTextLanguages);
+
+        $this->assertEquals($defaultTextLanguages, $specificParameters->getTextLanguages());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_region_id_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
@@ -90,6 +112,63 @@ class OfferFilterParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
         $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_optional_age_range_parameters()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $minAgeParameters = $defaultParameters
+            ->withMinimumAge(new Natural(5));
+
+        $maxAgeParameters = $defaultParameters
+            ->withMaximumAge(new Natural(10));
+
+        $rangeParameters = $defaultParameters
+            ->withMinimumAge(new Natural(0))
+            ->withMaximumAge(new Natural(7));
+
+        $this->assertFalse($defaultParameters->hasAgeRange());
+        $this->assertFalse($defaultParameters->hasMinimumAge());
+        $this->assertFalse($defaultParameters->hasMaximumAge());
+        $this->assertNull($defaultParameters->getMinimumAge());
+        $this->assertNull($defaultParameters->getMaximumAge());
+
+        $this->assertTrue($minAgeParameters->hasAgeRange());
+        $this->assertTrue($minAgeParameters->hasMinimumAge());
+        $this->assertFalse($minAgeParameters->hasMaximumAge());
+        $this->assertEquals(new Natural(5), $minAgeParameters->getMinimumAge());
+        $this->assertNull($minAgeParameters->getMaximumAge());
+
+        $this->assertTrue($maxAgeParameters->hasAgeRange());
+        $this->assertFalse($maxAgeParameters->hasMinimumAge());
+        $this->assertTrue($maxAgeParameters->hasMaximumAge());
+        $this->assertNull($maxAgeParameters->getMinimumAge());
+        $this->assertEquals(new Natural(10), $maxAgeParameters->getMaximumAge());
+
+        $this->assertTrue($rangeParameters->hasAgeRange());
+        $this->assertTrue($rangeParameters->hasMinimumAge());
+        $this->assertTrue($rangeParameters->hasMaximumAge());
+        $this->assertEquals(new Natural(0), $rangeParameters->getMinimumAge());
+        $this->assertEquals(new Natural(7), $rangeParameters->getMaximumAge());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_invalid_argument_exception_when_minimum_age_is_not_smaller_then_maximum_age()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Minimum age should be smaller or equal to maximum age.');
+
+        $defaultParameters
+            ->withMinimumAge(new Natural(10))
+            ->withMaximumAge(new Natural(5));
     }
 
     /**
