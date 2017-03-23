@@ -52,6 +52,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $maximumPrice;
 
     /**
+     * @var StringLiteral
+     */
+    private $audienceType;
+
+    /**
      * @var LabelName[]
      */
     private $labels = [];
@@ -302,6 +307,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasPriceRange()
     {
         return $this->hasMinimumPrice() || $this->hasMaximumPrice();
+    }
+
+    /**
+     * @param StringLiteral $audienceType
+     * @return OfferSearchParameters
+     */
+    public function withAudienceType(StringLiteral $audienceType)
+    {
+        $c = clone $this;
+        $c->audienceType = $audienceType;
+        return $c;
+    }
+
+    /**
+     * @return StringLiteral
+     */
+    public function getAudienceType()
+    {
+        return $this->audienceType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAudienceType()
+    {
+        return (bool) $this->audienceType;
     }
 
     /**
