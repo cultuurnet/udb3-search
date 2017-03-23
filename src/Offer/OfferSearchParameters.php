@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Search\Offer;
 
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\PriceInfo\Price;
+use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -65,6 +66,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var LabelName[]
      */
     private $organizerLabels = [];
+
+    /**
+     * @var Language[]
+     */
+    private $languages = [];
 
     /**
      * @param RegionId $regionId
@@ -350,6 +356,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getOrganizerLabels()
     {
         return $this->organizerLabels;
+    }
+
+    /**
+     * @param Language[] $languages
+     * @return OfferSearchParameters
+     */
+    public function withLanguages(Language ...$languages)
+    {
+        $c = clone $this;
+        $c->languages = array_unique(array_merge($this->languages, $languages));
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLanguages()
+    {
+        return !empty($this->languages);
+    }
+
+    /**
+     * @return Language[]
+     */
+    public function getLanguages()
+    {
+        return $this->languages;
     }
 
     /**
