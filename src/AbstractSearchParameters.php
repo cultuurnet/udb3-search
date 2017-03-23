@@ -121,13 +121,16 @@ abstract class AbstractSearchParameters
         return $this->textLanguages;
     }
 
+    /**
+     * @return array
+     */
     private function getDefaultTextLanguages()
     {
         return [
-          new Language('nl'),
-          new Language('fr'),
-          new Language('en'),
-          new Language('de'),
+            new Language('nl'),
+            new Language('fr'),
+            new Language('en'),
+            new Language('de'),
         ];
     }
 }
