@@ -236,6 +236,26 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_audience_type_paramater()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withAudienceType(new AudienceType('members'));
+
+        $this->assertFalse($defaultParameters->hasAudienceType());
+        $this->assertNull($defaultParameters->getAudienceType());
+
+        $this->assertTrue($specificParameters->hasAudienceType());
+        $this->assertEquals(
+            new AudienceType('members'),
+            $specificParameters->getAudienceType()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_labels_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
