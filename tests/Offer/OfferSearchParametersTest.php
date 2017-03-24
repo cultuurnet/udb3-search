@@ -241,14 +241,14 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withAudienceType(new StringLiteral('members'));
+            ->withAudienceType(new AudienceType('members'));
 
         $this->assertFalse($defaultParameters->hasAudienceType());
         $this->assertNull($defaultParameters->getAudienceType());
 
         $this->assertTrue($specificParameters->hasAudienceType());
         $this->assertEquals(
-            new StringLiteral('members'),
+            new AudienceType('members'),
             $specificParameters->getAudienceType()
         );
     }

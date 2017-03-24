@@ -53,7 +53,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $maximumPrice;
 
     /**
-     * @var StringLiteral
+     * @var AudienceType
      */
     private $audienceType;
 
@@ -316,10 +316,10 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param StringLiteral $audienceType
+     * @param AudienceType $audienceType
      * @return OfferSearchParameters
      */
-    public function withAudienceType(StringLiteral $audienceType)
+    public function withAudienceType(AudienceType $audienceType)
     {
         $c = clone $this;
         $c->audienceType = $audienceType;
@@ -327,7 +327,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @return StringLiteral
+     * @return AudienceType
      */
     public function getAudienceType()
     {
