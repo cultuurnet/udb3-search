@@ -138,7 +138,10 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $specificParameters = $defaultParameters
             ->withGeoDistanceParameters($geoDistance);
 
+        $this->assertFalse($defaultParameters->hasGeoDistanceParameters());
         $this->assertNull($defaultParameters->getGeoDistanceParameters());
+
+        $this->assertTrue($specificParameters->hasGeoDistanceParameters());
         $this->assertEquals($geoDistance, $specificParameters->getGeoDistanceParameters());
     }
 
