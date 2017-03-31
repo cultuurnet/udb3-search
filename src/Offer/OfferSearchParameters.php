@@ -58,6 +58,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $audienceType;
 
     /**
+     * @var TermId[]
+     */
+    private $termIds = [];
+
+    /**
+     * @var TermLabel[]
+     */
+    private $termLabels = [];
+
+    /**
      * @var LabelName[]
      */
     private $labels = [];
@@ -307,6 +317,60 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAudienceType()
     {
         return (bool) $this->audienceType;
+    }
+
+    /**
+     * @param TermId[] ...$termIds
+     * @return OfferSearchParameters
+     */
+    public function withTermIds(TermId ...$termIds)
+    {
+        $c = clone $this;
+        $c->termIds = array_merge($this->termIds, $termIds);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTermIds()
+    {
+        return !empty($this->termIds);
+    }
+
+    /**
+     * @return TermId[]
+     */
+    public function getTermIds()
+    {
+        return $this->termIds;
+    }
+
+    /**
+     * @param TermLabel[] ...$termLabels
+     * @return OfferSearchParameters
+     */
+    public function withTermLabels(TermLabel ...$termLabels)
+    {
+        $c = clone $this;
+        $c->termLabels = array_merge($this->termLabels, $termLabels);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasTermLabels()
+    {
+        return !empty($this->termLabels);
+    }
+
+    /**
+     * @return TermLabel[]
+     */
+    public function getTermLabels()
+    {
+        return $this->termLabels;
     }
 
     /**
