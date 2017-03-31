@@ -6,6 +6,7 @@ use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
+use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
@@ -26,6 +27,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var StringLiteral
      */
     private $regionDocumentType;
+
+    /**
+     * @var GeoDistanceParameters
+     */
+    private $geoDistanceParameters;
 
     /**
      * @var Natural
@@ -93,6 +99,33 @@ class OfferSearchParameters extends AbstractSearchParameters
         $c->regionIndexName = $regionIndexName;
         $c->regionDocumentType = $regionDocumentType;
         return $c;
+    }
+
+    /**
+     * @param GeoDistanceParameters $geoDistanceParameters
+     * @return OfferSearchParameters
+     */
+    public function withGeoDistanceParameters(GeoDistanceParameters $geoDistanceParameters)
+    {
+        $c = clone $this;
+        $c->geoDistanceParameters = $geoDistanceParameters;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasGeoDistanceParameters()
+    {
+        return (bool) $this->geoDistanceParameters;
+    }
+
+    /**
+     * @return GeoDistanceParameters|null
+     */
+    public function getGeoDistanceParameters()
+    {
+        return $this->geoDistanceParameters;
     }
 
     /**
