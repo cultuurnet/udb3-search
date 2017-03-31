@@ -96,39 +96,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param LabelName[] ...$labelNames
-     * @return OfferSearchParameters
-     */
-    public function withLabels(LabelName ...$labelNames)
-    {
-        $c = clone $this;
-        $c->labels = array_merge($c->labels, $labelNames);
-        return $c;
-    }
-
-    /**
-     * @param LabelName[] ...$labelNames
-     * @return OfferSearchParameters
-     */
-    public function withLocationLabels(LabelName ...$labelNames)
-    {
-        $c = clone $this;
-        $c->locationLabels = array_merge($c->locationLabels, $labelNames);
-        return $c;
-    }
-
-    /**
-     * @param LabelName[] ...$labelNames
-     * @return OfferSearchParameters
-     */
-    public function withOrganizerLabels(LabelName ...$labelNames)
-    {
-        $c = clone $this;
-        $c->organizerLabels = array_merge($c->organizerLabels, $labelNames);
-        return $c;
-    }
-
-    /**
      * @return RegionId
      */
     public function getRegionId()
@@ -340,6 +307,39 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAudienceType()
     {
         return (bool) $this->audienceType;
+    }
+
+    /**
+     * @param LabelName[] ...$labelNames
+     * @return OfferSearchParameters
+     */
+    public function withLabels(LabelName ...$labelNames)
+    {
+        $c = clone $this;
+        $c->labels = array_merge($c->labels, $labelNames);
+        return $c;
+    }
+
+    /**
+     * @param LabelName[] ...$labelNames
+     * @return OfferSearchParameters
+     */
+    public function withLocationLabels(LabelName ...$labelNames)
+    {
+        $c = clone $this;
+        $c->locationLabels = array_merge($c->locationLabels, $labelNames);
+        return $c;
+    }
+
+    /**
+     * @param LabelName[] ...$labelNames
+     * @return OfferSearchParameters
+     */
+    public function withOrganizerLabels(LabelName ...$labelNames)
+    {
+        $c = clone $this;
+        $c->organizerLabels = array_merge($c->organizerLabels, $labelNames);
+        return $c;
     }
 
     /**
