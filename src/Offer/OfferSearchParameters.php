@@ -481,60 +481,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param TermId[] ...$termIds
-     * @return OfferSearchParameters
-     */
-    public function withOrganizerTermIds(TermId ...$termIds)
-    {
-        $c = clone $this;
-        $c->organizerTermIds = array_merge($this->organizerTermIds, $termIds);
-        return $c;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasOrganizerTermIds()
-    {
-        return !empty($this->organizerTermIds);
-    }
-
-    /**
-     * @return TermId[]
-     */
-    public function getOrganizerTermIds()
-    {
-        return $this->organizerTermIds;
-    }
-
-    /**
-     * @param TermLabel[] ...$termLabels
-     * @return OfferSearchParameters
-     */
-    public function withOrganizerTermLabels(TermLabel ...$termLabels)
-    {
-        $c = clone $this;
-        $c->organizerTermLabels = array_merge($this->organizerTermLabels, $termLabels);
-        return $c;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasOrganizerTermLabels()
-    {
-        return !empty($this->organizerTermLabels);
-    }
-
-    /**
-     * @return TermLabel[]
-     */
-    public function getOrganizerTermLabels()
-    {
-        return $this->organizerTermLabels;
-    }
-
-    /**
      * @param LabelName[] ...$labelNames
      * @return OfferSearchParameters
      */

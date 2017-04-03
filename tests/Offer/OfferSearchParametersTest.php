@@ -410,68 +410,6 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_has_an_optional_organizer_term_ids_parameter()
-    {
-        $defaultParameters = new OfferSearchParameters();
-
-        $specificParameters = $defaultParameters
-            ->withOrganizerTermIds(new TermId('0.11.7.3.1'))
-            ->withOrganizerTermIds(
-                ...[
-                    new TermId('aETazzetx'),
-                    new TermId('1.74.57.9'),
-                ]
-            )
-            ->withOrganizerTermIds(new TermId('_could_be_anything_really_'));
-
-        $expected = [
-            new TermId('0.11.7.3.1'),
-            new TermId('aETazzetx'),
-            new TermId('1.74.57.9'),
-            new TermId('_could_be_anything_really_'),
-        ];
-
-        $this->assertFalse($defaultParameters->hasOrganizerTermIds());
-        $this->assertEmpty($defaultParameters->getOrganizerTermIds());
-
-        $this->assertTrue($specificParameters->hasOrganizerTermIds());
-        $this->assertEquals($expected, $specificParameters->getOrganizerTermIds());
-    }
-
-    /**
-     * @test
-     */
-    public function it_has_an_optional_organizer_term_labels_parameter()
-    {
-        $defaultParameters = new OfferSearchParameters();
-
-        $specificParameters = $defaultParameters
-            ->withOrganizerTermLabels(new TermLabel('Jeugdhuis of -centrum'))
-            ->withOrganizerTermLabels(
-                ...[
-                    new TermLabel('Cultuur- of ontmoetingscentrum'),
-                    new TermLabel('Sportschuur'),
-                ]
-            )
-            ->withOrganizerTermLabels(new TermLabel('Theater'));
-
-        $expected = [
-            new TermLabel('Jeugdhuis of -centrum'),
-            new TermLabel('Cultuur- of ontmoetingscentrum'),
-            new TermLabel('Sportschuur'),
-            new TermLabel('Theater'),
-        ];
-
-        $this->assertFalse($defaultParameters->hasOrganizerTermLabels());
-        $this->assertEmpty($defaultParameters->getOrganizerTermLabels());
-
-        $this->assertTrue($specificParameters->hasOrganizerTermLabels());
-        $this->assertEquals($expected, $specificParameters->getOrganizerTermLabels());
-    }
-
-    /**
-     * @test
-     */
     public function it_has_an_optional_labels_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
