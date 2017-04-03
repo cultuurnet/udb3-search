@@ -74,6 +74,26 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $termLabels = [];
 
     /**
+     * @var TermId[]
+     */
+    private $locationTermIds = [];
+
+    /**
+     * @var TermLabel[]
+     */
+    private $locationTermLabels = [];
+
+    /**
+     * @var TermId[]
+     */
+    private $organizerTermIds = [];
+
+    /**
+     * @var TermLabel[]
+     */
+    private $organizerTermLabels = [];
+
+    /**
      * @var LabelName[]
      */
     private $labels = [];
@@ -404,6 +424,114 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getTermLabels()
     {
         return $this->termLabels;
+    }
+
+    /**
+     * @param TermId[] ...$termIds
+     * @return OfferSearchParameters
+     */
+    public function withLocationTermIds(TermId ...$termIds)
+    {
+        $c = clone $this;
+        $c->locationTermIds = array_merge($this->locationTermIds, $termIds);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLocationTermIds()
+    {
+        return !empty($this->locationTermIds);
+    }
+
+    /**
+     * @return TermId[]
+     */
+    public function getLocationTermIds()
+    {
+        return $this->locationTermIds;
+    }
+
+    /**
+     * @param TermLabel[] ...$termLabels
+     * @return OfferSearchParameters
+     */
+    public function withLocationTermLabels(TermLabel ...$termLabels)
+    {
+        $c = clone $this;
+        $c->locationTermLabels = array_merge($this->locationTermLabels, $termLabels);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLocationTermLabels()
+    {
+        return !empty($this->locationTermLabels);
+    }
+
+    /**
+     * @return TermLabel[]
+     */
+    public function getLocationTermLabels()
+    {
+        return $this->locationTermLabels;
+    }
+
+    /**
+     * @param TermId[] ...$termIds
+     * @return OfferSearchParameters
+     */
+    public function withOrganizerTermIds(TermId ...$termIds)
+    {
+        $c = clone $this;
+        $c->organizerTermIds = array_merge($this->organizerTermIds, $termIds);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOrganizerTermIds()
+    {
+        return !empty($this->organizerTermIds);
+    }
+
+    /**
+     * @return TermId[]
+     */
+    public function getOrganizerTermIds()
+    {
+        return $this->organizerTermIds;
+    }
+
+    /**
+     * @param TermLabel[] ...$termLabels
+     * @return OfferSearchParameters
+     */
+    public function withOrganizerTermLabels(TermLabel ...$termLabels)
+    {
+        $c = clone $this;
+        $c->organizerTermLabels = array_merge($this->organizerTermLabels, $termLabels);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOrganizerTermLabels()
+    {
+        return !empty($this->organizerTermLabels);
+    }
+
+    /**
+     * @return TermLabel[]
+     */
+    public function getOrganizerTermLabels()
+    {
+        return $this->organizerTermLabels;
     }
 
     /**
