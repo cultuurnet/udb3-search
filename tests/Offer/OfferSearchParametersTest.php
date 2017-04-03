@@ -2,9 +2,14 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\Geocoding\Coordinate\Coordinates;
+use CultuurNet\Geocoding\Coordinate\Latitude;
+use CultuurNet\Geocoding\Coordinate\Longitude;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
+use CultuurNet\UDB3\Search\GeoDistanceParameters;
+use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Number\Natural;
@@ -113,6 +118,31 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
         $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_geo_distance_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $geoDistance = new GeoDistanceParameters(
+            new Coordinates(
+                new Latitude(40.004567),
+                new Longitude(-70.01077)
+            ),
+            new MockDistance('30 beard-seconds')
+        );
+
+        $specificParameters = $defaultParameters
+            ->withGeoDistanceParameters($geoDistance);
+
+        $this->assertFalse($defaultParameters->hasGeoDistanceParameters());
+        $this->assertNull($defaultParameters->getGeoDistanceParameters());
+
+        $this->assertTrue($specificParameters->hasGeoDistanceParameters());
+        $this->assertEquals($geoDistance, $specificParameters->getGeoDistanceParameters());
     }
 
     /**
