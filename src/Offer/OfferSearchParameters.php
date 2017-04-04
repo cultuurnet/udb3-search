@@ -84,16 +84,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $locationTermLabels = [];
 
     /**
-     * @var TermId[]
-     */
-    private $organizerTermIds = [];
-
-    /**
-     * @var TermLabel[]
-     */
-    private $organizerTermLabels = [];
-
-    /**
      * @var LabelName[]
      */
     private $labels = [];
