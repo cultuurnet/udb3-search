@@ -286,6 +286,130 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_term_ids_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withTermIds(new TermId('0.11.7.3.1'))
+            ->withTermIds(
+                ...[
+                    new TermId('aETazzetx'),
+                    new TermId('1.74.57.9'),
+                ]
+            )
+            ->withTermIds(new TermId('_could_be_anything_really_'));
+
+        $expected = [
+            new TermId('0.11.7.3.1'),
+            new TermId('aETazzetx'),
+            new TermId('1.74.57.9'),
+            new TermId('_could_be_anything_really_'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasTermIds());
+        $this->assertEmpty($defaultParameters->getTermIds());
+
+        $this->assertTrue($specificParameters->hasTermIds());
+        $this->assertEquals($expected, $specificParameters->getTermIds());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_term_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withTermLabels(new TermLabel('Jeugdhuis of -centrum'))
+            ->withTermLabels(
+                ...[
+                    new TermLabel('Cultuur- of ontmoetingscentrum'),
+                    new TermLabel('Sportschuur'),
+                ]
+            )
+            ->withTermLabels(new TermLabel('Theater'));
+
+        $expected = [
+            new TermLabel('Jeugdhuis of -centrum'),
+            new TermLabel('Cultuur- of ontmoetingscentrum'),
+            new TermLabel('Sportschuur'),
+            new TermLabel('Theater'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasTermLabels());
+        $this->assertEmpty($defaultParameters->getTermLabels());
+
+        $this->assertTrue($specificParameters->hasTermLabels());
+        $this->assertEquals($expected, $specificParameters->getTermLabels());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_location_term_ids_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLocationTermIds(new TermId('0.11.7.3.1'))
+            ->withLocationTermIds(
+                ...[
+                    new TermId('aETazzetx'),
+                    new TermId('1.74.57.9'),
+                ]
+            )
+            ->withLocationTermIds(new TermId('_could_be_anything_really_'));
+
+        $expected = [
+            new TermId('0.11.7.3.1'),
+            new TermId('aETazzetx'),
+            new TermId('1.74.57.9'),
+            new TermId('_could_be_anything_really_'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLocationTermIds());
+        $this->assertEmpty($defaultParameters->getLocationTermIds());
+
+        $this->assertTrue($specificParameters->hasLocationTermIds());
+        $this->assertEquals($expected, $specificParameters->getLocationTermIds());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_location_term_labels_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLocationTermLabels(new TermLabel('Jeugdhuis of -centrum'))
+            ->withLocationTermLabels(
+                ...[
+                    new TermLabel('Cultuur- of ontmoetingscentrum'),
+                    new TermLabel('Sportschuur'),
+                ]
+            )
+            ->withLocationTermLabels(new TermLabel('Theater'));
+
+        $expected = [
+            new TermLabel('Jeugdhuis of -centrum'),
+            new TermLabel('Cultuur- of ontmoetingscentrum'),
+            new TermLabel('Sportschuur'),
+            new TermLabel('Theater'),
+        ];
+
+        $this->assertFalse($defaultParameters->hasLocationTermLabels());
+        $this->assertEmpty($defaultParameters->getLocationTermLabels());
+
+        $this->assertTrue($specificParameters->hasLocationTermLabels());
+        $this->assertEquals($expected, $specificParameters->getLocationTermLabels());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_labels_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
