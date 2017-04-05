@@ -104,6 +104,25 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_workflow_status_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withWorkflowStatus(
+                new WorkflowStatus('DRAFT')
+            );
+
+        $this->assertFalse($defaultParameters->hasWorkflowStatus());
+        $this->assertNull($defaultParameters->getWorkflowStatus());
+
+        $this->assertTrue($specificParameters->hasWorkflowStatus());
+        $this->assertEquals(new WorkflowStatus('DRAFT'), $specificParameters->getWorkflowStatus());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_region_id_parameter()
     {
         $defaultParameters = new OfferSearchParameters();

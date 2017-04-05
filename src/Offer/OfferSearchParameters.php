@@ -14,6 +14,11 @@ use ValueObjects\StringLiteral\StringLiteral;
 class OfferSearchParameters extends AbstractSearchParameters
 {
     /**
+     * @var WorkflowStatus
+     */
+    private $workflowStatus;
+
+    /**
      * @var RegionId
      */
     private $regionId;
@@ -102,6 +107,34 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var Language[]
      */
     private $languages = [];
+
+    /**
+     * @param WorkflowStatus $workflowStatus
+     * @return OfferSearchParameters
+     */
+    public function withWorkflowStatus(
+        WorkflowStatus $workflowStatus
+    ) {
+        $c = clone $this;
+        $c->workflowStatus = $workflowStatus;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasWorkflowStatus()
+    {
+        return (bool) $this->workflowStatus;
+    }
+
+    /**
+     * @return WorkflowStatus
+     */
+    public function getWorkflowStatus()
+    {
+        return $this->workflowStatus;
+    }
 
     /**
      * @param RegionId $regionId
