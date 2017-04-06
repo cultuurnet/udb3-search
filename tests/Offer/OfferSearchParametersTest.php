@@ -104,6 +104,72 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_cdbid_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withCdbid(
+                new Cdbid('663bf2af-f49f-40f9-8253-363facdf4474')
+            );
+
+        $this->assertFalse($defaultParameters->hasCdbid());
+        $this->assertNull($defaultParameters->getCdbid());
+
+        $this->assertTrue($specificParameters->hasCdbid());
+        $this->assertEquals(
+            new Cdbid('663bf2af-f49f-40f9-8253-363facdf4474'),
+            $specificParameters->getCdbid()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_location_cdbid_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withLocationCdbid(
+                new Cdbid('a0fe3ec9-a70c-4879-ac32-80a85b2c83c2')
+            );
+
+        $this->assertFalse($defaultParameters->hasLocationCdbid());
+        $this->assertNull($defaultParameters->getLocationCdbid());
+
+        $this->assertTrue($specificParameters->hasLocationCdbid());
+        $this->assertEquals(
+            new Cdbid('a0fe3ec9-a70c-4879-ac32-80a85b2c83c2'),
+            $specificParameters->getLocationCdbid()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_organizer_cdbid_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withOrganizerCdbid(
+                new Cdbid('6554633c-803a-4080-8137-4f6a60f88c0a')
+            );
+
+        $this->assertFalse($defaultParameters->hasOrganizerCdbid());
+        $this->assertNull($defaultParameters->getOrganizerCdbid());
+
+        $this->assertTrue($specificParameters->hasOrganizerCdbid());
+        $this->assertEquals(
+            new Cdbid('6554633c-803a-4080-8137-4f6a60f88c0a'),
+            $specificParameters->getOrganizerCdbid()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_workflow_status_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
