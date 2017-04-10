@@ -34,7 +34,7 @@ class FacetNode extends AbstractFacetTree
     }
 
     /**
-     * @return string
+     * @return MultilingualString
      */
     public function getName()
     {
