@@ -2,10 +2,12 @@
 
 namespace CultuurNet\UDB3\Search\Facet;
 
+use CultuurNet\UDB3\ValueObject\MultilingualString;
+
 class FacetNode extends AbstractFacetTree
 {
     /**
-     * @var string
+     * @var MultilingualString
      */
     private $name;
 
@@ -16,18 +18,18 @@ class FacetNode extends AbstractFacetTree
 
     /**
      * @param string $key
-     * @param string $name
+     * @param MultilingualString $name
      * @param int $count
      * @param array $children
      */
     public function __construct(
         $key,
-        $name,
+        MultilingualString $name,
         $count,
         array $children = []
     ) {
         parent::__construct($key, $children);
-        $this->setName($name);
+        $this->name = $name;
         $this->setcount($count);
     }
 
@@ -45,17 +47,6 @@ class FacetNode extends AbstractFacetTree
     public function getCount()
     {
         return $this->count;
-    }
-
-    /**
-     * @param string $name
-     */
-    private function setName($name)
-    {
-        if (!is_string($name)) {
-            throw new \InvalidArgumentException('Facet node name should be a string.');
-        }
-        $this->name = $name;
     }
 
     /**

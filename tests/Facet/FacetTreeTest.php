@@ -2,6 +2,10 @@
 
 namespace CultuurNet\UDB3\Search\Facet;
 
+use CultuurNet\UDB3\Language;
+use CultuurNet\UDB3\ValueObject\MultilingualString;
+use ValueObjects\StringLiteral\StringLiteral;
+
 class FacetTreeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -9,23 +13,85 @@ class FacetTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function it_has_a_multi_level_list_of_facet_node_children()
     {
-        $node11 = new FacetNode('facet11', 'Facet 1.1', 3);
-        $node12 = new FacetNode('facet12', 'Facet 1.2', 14);
-        $node13 = new FacetNode('facet13', 'Facet 1.3', 15);
+        $gemLeuven = new FacetNode(
+            'gem-leuven',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Leuven')
+            ),
+            3
+        );
 
-        $node1 = new FacetNode('facet1', 'Facet 1', 32, [$node11, $node12, $node13]);
+        $gemWilsele = new FacetNode(
+            'gem-wilsele',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Wilsele')
+            ),
+            14
+        );
 
-        $node21 = new FacetNode('facet21', 'Facet 2.1', 7);
-        $node22 = new FacetNode('facet22', 'Facet 2.2', 8);
-        $node23 = new FacetNode('facet23', 'Facet 2.3', 13);
+        $gemWijgmaal = new FacetNode(
+            'facet13',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Wijgmaal')
+            ),
+            15
+        );
 
-        $node2 = new FacetNode('facet2', 'Facet 2', 28, [$node21, $node22, $node23]);
+        $prvVlaamsBrabant = new FacetNode(
+            'prv-vlaams-brabant',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Vlaams-Brabant')
+            ),
+            32,
+            [$gemLeuven, $gemWilsele, $gemWijgmaal]
+        );
 
-        $filter = new FacetFilter('filter1', [$node1, $node2]);
+        $gemBerchem= new FacetNode(
+            'gem-berchem',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Berchem')
+            ),
+            7
+        );
+
+        $gemWesterlo = new FacetNode(
+            'gem-westerlo',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Westerlo')
+            ),
+            8
+        );
+
+        $gemAntwerpen = new FacetNode(
+            'gem-antwerpen',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Antwerpen')
+            ),
+            13
+        );
+
+        $prvAntwerpen = new FacetNode(
+            'prv-antwerpen',
+            new MultilingualString(
+                new Language('nl'),
+                new StringLiteral('Antwerpen')
+            ),
+            28,
+            [$gemBerchem, $gemWesterlo, $gemAntwerpen]
+        );
+
+        $filter = new FacetFilter('region', [$prvVlaamsBrabant, $prvAntwerpen]);
 
         // Don't use assertEquals because we want to test that we can get all
         // required info by using the getters on the facet filter and nodes.
-        $this->assertFilterEquals('filter1', [$node1, $node2], $filter);
+        $this->assertFilterEquals('region', [$prvVlaamsBrabant, $prvAntwerpen], $filter);
     }
 
     /**

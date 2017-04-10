@@ -2,10 +2,13 @@
 
 namespace CultuurNet\UDB3\Search;
 
+use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\ReadModel\JsonDocument;
 use CultuurNet\UDB3\Search\Facet\FacetFilter;
 use CultuurNet\UDB3\Search\Facet\FacetNode;
+use CultuurNet\UDB3\ValueObject\MultilingualString;
 use ValueObjects\Number\Natural;
+use ValueObjects\StringLiteral\StringLiteral;
 
 class PagedResultSetTest extends \PHPUnit_Framework_TestCase
 {
@@ -91,34 +94,52 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
                 [
                     new FacetNode(
                         'prv-vlaams-brabant',
-                        'Vlaams-Brabant',
+                        new MultilingualString(
+                            new Language('nl'),
+                            new StringLiteral('Vlaams-Brabant')
+                        ),
                         20,
                         [
                             new FacetNode(
                                 'gem-leuven',
-                                'Leuven',
+                                new MultilingualString(
+                                    new Language('nl'),
+                                    new StringLiteral('Leuven')
+                                ),
                                 15
                             ),
                             new FacetNode(
                                 'gem-diest',
-                                'Diest',
+                                new MultilingualString(
+                                    new Language('nl'),
+                                    new StringLiteral('Diest')
+                                ),
                                 5
                             ),
                         ]
                     ),
                     new FacetNode(
                         'prv-antwerpen',
-                        'Antwerpen',
+                        new MultilingualString(
+                            new Language('nl'),
+                            new StringLiteral('Antwerpen')
+                        ),
                         32,
                         [
                             new FacetNode(
                                 'gem-antwerpen',
-                                'Antwerpen',
+                                new MultilingualString(
+                                    new Language('nl'),
+                                    new StringLiteral('Antwerpen')
+                                ),
                                 17
                             ),
                             new FacetNode(
                                 'gem-westerlo',
-                                'Westerlo',
+                                new MultilingualString(
+                                    new Language('nl'),
+                                    new StringLiteral('Westerlo')
+                                ),
                                 15
                             ),
                         ]
@@ -130,12 +151,18 @@ class PagedResultSetTest extends \PHPUnit_Framework_TestCase
                 [
                     new FacetNode(
                         '0.11.6.5',
-                        'Jeugdhuis of jeugdcentrum',
+                        new MultilingualString(
+                            new Language('nl'),
+                            new StringLiteral('Jeugdhuis of jeugdcentrum')
+                        ),
                         7
                     ),
                     new FacetNode(
                         '0.11.6.7',
-                        'Bibliotheek',
+                        new MultilingualString(
+                            new Language('nl'),
+                            new StringLiteral('Bibliotheek')
+                        ),
                         14
                     ),
                 ]
