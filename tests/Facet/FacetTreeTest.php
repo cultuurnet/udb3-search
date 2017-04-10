@@ -59,7 +59,7 @@ class FacetTreeTest extends \PHPUnit_Framework_TestCase
     private function assertNodeEquals(FacetNode $expected, FacetNode $actual)
     {
         $this->assertEquals($expected->getKey(), $actual->getKey());
-        $this->assertEquals($expected->getLabel(), $actual->getLabel());
+        $this->assertEquals($expected->getName(), $actual->getName());
         $this->assertEquals($expected->getCount(), $actual->getCount());
         $this->assertChildrenEquals($expected->getChildren(), $actual->getChildren());
     }

@@ -7,7 +7,7 @@ class FacetNode extends AbstractFacetTree
     /**
      * @var string
      */
-    private $label;
+    private $name;
 
     /**
      * @var int
@@ -16,27 +16,27 @@ class FacetNode extends AbstractFacetTree
 
     /**
      * @param string $key
-     * @param string $label
+     * @param string $name
      * @param int $count
      * @param array $children
      */
     public function __construct(
         $key,
-        $label,
+        $name,
         $count,
         array $children = []
     ) {
         parent::__construct($key, $children);
-        $this->setLabel($label);
+        $this->setName($name);
         $this->setcount($count);
     }
 
     /**
      * @return string
      */
-    public function getLabel()
+    public function getName()
     {
-        return $this->label;
+        return $this->name;
     }
 
     /**
@@ -48,14 +48,14 @@ class FacetNode extends AbstractFacetTree
     }
 
     /**
-     * @param string $label
+     * @param string $name
      */
-    private function setLabel($label)
+    private function setName($name)
     {
-        if (!is_string($label)) {
-            throw new \InvalidArgumentException('Facet node label should be a string.');
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException('Facet node name should be a string.');
         }
-        $this->label = $label;
+        $this->name = $name;
     }
 
     /**
