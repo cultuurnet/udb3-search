@@ -577,4 +577,52 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
             $specificParameters->getLanguages()
         );
     }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_facets_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withFacets(
+                FacetName::REGION()
+            );
+
+        $this->assertFalse($defaultParameters->hasFacets());
+        $this->assertEmpty($defaultParameters->getFacets());
+
+        $this->assertTrue($specificParameters->hasFacets());
+        $this->assertEquals(
+            [
+                FacetName::REGION(),
+            ],
+            $specificParameters->getFacets()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_unique_optional_facets_as_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withFacets(
+                FacetName::REGION(),
+                FacetName::REGION()
+            )
+            ->withFacets(
+                FacetName::REGION()
+            );
+
+        $this->assertEquals(
+            [
+                FacetName::REGION(),
+            ],
+            $specificParameters->getFacets()
+        );
+    }
 }
