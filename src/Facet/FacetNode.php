@@ -55,7 +55,7 @@ class FacetNode extends AbstractFacetTree
     private function setCount($count)
     {
         if (!is_int($count)) {
-            throw new \InvalidArgumentException('Facet node count should be a string.');
+            throw new \InvalidArgumentException('Facet node count should be a int.');
         }
         $this->count = $count;
     }

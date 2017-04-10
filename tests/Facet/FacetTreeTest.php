@@ -95,6 +95,24 @@ class FacetTreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_only_accepts_a_string_as_key()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new FacetFilter(123, []);
+    }
+
+    /**
+     * @test
+     */
+    public function it_only_accepts_an_int_as_count()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new FacetNode('test', new MultilingualString(new Language('nl'), new StringLiteral('test')), 'count', []);
+    }
+
+    /**
      * @param $expectedKey
      * @param array $expectedChildren
      * @param FacetFilter $actual
