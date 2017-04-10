@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Language;
@@ -37,6 +38,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var GeoDistanceParameters
      */
     private $geoDistanceParameters;
+
+    /**
+     * @var PostalCode
+     */
+    private $postalCode;
 
     /**
      * @var Natural
@@ -208,6 +214,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getGeoDistanceParameters()
     {
         return $this->geoDistanceParameters;
+    }
+
+    /**
+     * @param PostalCode $postalCode
+     * @return OfferSearchParameters
+     */
+    public function withPostalCode(PostalCode $postalCode)
+    {
+        $c = clone $this;
+        $c->postalCode = $postalCode;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPostalCode()
+    {
+        return (bool) $this->postalCode;
+    }
+
+    /**
+     * @return PostalCode
+     */
+    public function getPostalCode()
+    {
+        return $this->postalCode;
     }
 
     /**
