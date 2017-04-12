@@ -15,6 +15,21 @@ use ValueObjects\StringLiteral\StringLiteral;
 class OfferSearchParameters extends AbstractSearchParameters
 {
     /**
+     * @var Cdbid
+     */
+    private $cdbid;
+
+    /**
+     * @var Cdbid
+     */
+    private $locationCdbid;
+
+    /**
+     * @var Cdbid
+     */
+    private $organizerCdbid;
+
+    /**
      * @var WorkflowStatus
      */
     private $workflowStatus;
@@ -113,6 +128,87 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var Language[]
      */
     private $languages = [];
+
+    /**
+     * @param Cdbid $cdbid
+     * @return OfferSearchParameters
+     */
+    public function withCdbid(Cdbid $cdbid)
+    {
+        $c = clone $this;
+        $c->cdbid = $cdbid;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCdbid()
+    {
+        return (bool) $this->cdbid;
+    }
+
+    /**
+     * @return Cdbid
+     */
+    public function getCdbid()
+    {
+        return $this->cdbid;
+    }
+
+    /**
+     * @param Cdbid $locationCdbid
+     * @return OfferSearchParameters
+     */
+    public function withLocationCdbid(Cdbid $locationCdbid)
+    {
+        $c = clone $this;
+        $c->locationCdbid = $locationCdbid;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasLocationCdbid()
+    {
+        return (bool) $this->locationCdbid;
+    }
+
+    /**
+     * @return Cdbid
+     */
+    public function getLocationCdbid()
+    {
+        return $this->locationCdbid;
+    }
+
+    /**
+     * @param Cdbid $organizerCdbid
+     * @return OfferSearchParameters
+     */
+    public function withOrganizerCdbid(Cdbid $organizerCdbid)
+    {
+        $c = clone $this;
+        $c->organizerCdbid = $organizerCdbid;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasOrganizerCdbid()
+    {
+        return (bool) $this->organizerCdbid;
+    }
+
+    /**
+     * @return Cdbid
+     */
+    public function getOrganizerCdbid()
+    {
+        return $this->organizerCdbid;
+    }
 
     /**
      * @param WorkflowStatus $workflowStatus
