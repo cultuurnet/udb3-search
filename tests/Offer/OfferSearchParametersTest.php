@@ -5,6 +5,7 @@ namespace CultuurNet\UDB3\Search\Offer;
 use CultuurNet\Geocoding\Coordinate\Coordinates;
 use CultuurNet\Geocoding\Coordinate\Latitude;
 use CultuurNet\Geocoding\Coordinate\Longitude;
+use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
@@ -228,6 +229,23 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($specificParameters->hasGeoDistanceParameters());
         $this->assertEquals($geoDistance, $specificParameters->getGeoDistanceParameters());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_postal_code_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withPostalCode(new PostalCode('3000'));
+
+        $this->assertFalse($defaultParameters->hasPostalCode());
+        $this->assertNull($defaultParameters->getPostalCode());
+
+        $this->assertTrue($specificParameters->hasPostalCode());
+        $this->assertEquals(new PostalCode('3000'), $specificParameters->getPostalCode());
     }
 
     /**
