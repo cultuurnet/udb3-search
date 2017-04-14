@@ -671,7 +671,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $specificParameters = $defaultParameters
             ->withFacets(
-                FacetName::REGION()
+                FacetName::REGIONS()
             );
 
         $this->assertFalse($defaultParameters->hasFacets());
@@ -680,7 +680,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($specificParameters->hasFacets());
         $this->assertEquals(
             [
-                FacetName::REGION(),
+                FacetName::REGIONS(),
             ],
             $specificParameters->getFacets()
         );
@@ -695,16 +695,16 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $specificParameters = $defaultParameters
             ->withFacets(
-                FacetName::REGION(),
-                FacetName::REGION()
+                FacetName::REGIONS(),
+                FacetName::REGIONS()
             )
             ->withFacets(
-                FacetName::REGION()
+                FacetName::REGIONS()
             );
 
         $this->assertEquals(
             [
-                FacetName::REGION(),
+                FacetName::REGIONS(),
             ],
             $specificParameters->getFacets()
         );

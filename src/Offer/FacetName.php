@@ -5,9 +5,9 @@ namespace CultuurNet\UDB3\Search\Offer;
 use ValueObjects\Enum\Enum;
 
 /**
- * @method static FacetName REGION()
+ * @method static FacetName REGIONS()
  */
 class FacetName extends Enum
 {
-    const REGION = 'region';
+    const REGIONS = 'regions';
 }
