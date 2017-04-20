@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search;
 
 use CultuurNet\UDB3\ReadModel\JsonDocument;
+use CultuurNet\UDB3\Search\Facet\FacetFilter;
 use ValueObjects\Number\Natural;
 
 class PagedResultSet
@@ -23,6 +24,11 @@ class PagedResultSet
     private $results;
 
     /**
+     * @var FacetFilter[]
+     */
+    private $facets;
+
+    /**
      * @param Natural $total
      * @param Natural $perPage
      * @param JsonDocument[] $results
@@ -37,6 +43,7 @@ class PagedResultSet
         $this->total = $total;
         $this->perPage = $perPage;
         $this->results = $results;
+        $this->facets = [];
     }
 
     /**
@@ -61,6 +68,25 @@ class PagedResultSet
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * @param FacetFilter[] ...$facetFilters
+     * @return PagedResultSet
+     */
+    public function withFacets(FacetFilter ...$facetFilters)
+    {
+        $c = clone $this;
+        $c->facets = $facetFilters;
+        return $c;
+    }
+
+    /**
+     * @return FacetFilter[]
+     */
+    public function getFacets()
+    {
+        return $this->facets;
     }
 
     /**

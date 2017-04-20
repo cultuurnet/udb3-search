@@ -130,6 +130,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $languages = [];
 
     /**
+     * @var FacetName[]
+     */
+    private $facets = [];
+
+    /**
      * @param Cdbid $cdbid
      * @return OfferSearchParameters
      */
@@ -738,6 +743,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getLanguages()
     {
         return $this->languages;
+    }
+
+    /**
+     * @param FacetName[] ...$facetNames
+     * @return OfferSearchParameters
+     */
+    public function withFacets(FacetName ...$facetNames)
+    {
+        $c = clone $this;
+        $c->facets = array_unique($facetNames);
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFacets()
+    {
+        return !empty($this->facets);
+    }
+
+    /**
+     * @return FacetName[]
+     */
+    public function getFacets()
+    {
+        return $this->facets;
     }
 
     /**
