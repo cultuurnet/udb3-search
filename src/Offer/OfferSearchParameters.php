@@ -9,6 +9,7 @@ use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
+use ValueObjects\Geography\Country;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
@@ -58,6 +59,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var PostalCode
      */
     private $postalCode;
+
+    /**
+     * @var Country
+     */
+    private $addressCountry;
 
     /**
      * @var Natural
@@ -337,6 +343,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getPostalCode()
     {
         return $this->postalCode;
+    }
+
+    /**
+     * @param Country $addressCountry
+     * @return OfferSearchParameters
+     */
+    public function withAddressCountry(Country $addressCountry)
+    {
+        $c = clone $this;
+        $c->addressCountry = $addressCountry;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAddressCountry()
+    {
+        return (bool) $this->addressCountry;
+    }
+
+    /**
+     * @return Country
+     */
+    public function getAddressCountry()
+    {
+        return $this->addressCountry;
     }
 
     /**
