@@ -392,6 +392,21 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_throws_invalid_argument_exception_when_minimum_price_is_not_smaller_then_maximum_price()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Minimum price should be smaller or equal to maximum price.');
+
+        $defaultParameters
+            ->withMinimumPrice(Price::fromFloat(9.99))
+            ->withMaximumPrice(Price::fromFloat(9.95));
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_audience_type_paramater()
     {
         $defaultParameters = new OfferSearchParameters();
