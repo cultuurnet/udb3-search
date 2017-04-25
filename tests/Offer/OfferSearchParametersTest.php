@@ -173,6 +173,44 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_available_from_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $availableFrom = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+
+        $specificParameters = $defaultParameters
+            ->withAvailableFrom($availableFrom);
+
+        $this->assertFalse($defaultParameters->hasAvailableFrom());
+        $this->assertNull($defaultParameters->getAvailableFrom());
+
+        $this->assertTrue($specificParameters->hasAvailableFrom());
+        $this->assertEquals($availableFrom, $specificParameters->getAvailableFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_available_to_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $availableTo = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+
+        $specificParameters = $defaultParameters
+            ->withAvailableTo($availableTo);
+
+        $this->assertFalse($defaultParameters->hasAvailableTo());
+        $this->assertNull($defaultParameters->getAvailableTo());
+
+        $this->assertTrue($specificParameters->hasAvailableTo());
+        $this->assertEquals($availableTo, $specificParameters->getAvailableTo());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_workflow_status_parameter()
     {
         $defaultParameters = new OfferSearchParameters();

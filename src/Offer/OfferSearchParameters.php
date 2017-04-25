@@ -31,6 +31,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $organizerCdbid;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $availableFrom;
+
+    /**
+     * @var \DateTimeImmutable
+     */
+    private $availableTo;
+
+    /**
      * @var WorkflowStatus
      */
     private $workflowStatus;
@@ -219,6 +229,60 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getOrganizerCdbid()
     {
         return $this->organizerCdbid;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableFrom
+     * @return OfferSearchParameters
+     */
+    public function withAvailableFrom(\DateTimeImmutable $availableFrom)
+    {
+        $c = clone $this;
+        $c->availableFrom = $availableFrom;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAvailableFrom()
+    {
+        return (bool) $this->availableFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getAvailableFrom()
+    {
+        return $this->availableFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableTo
+     * @return OfferSearchParameters
+     */
+    public function withAvailableTo(\DateTimeImmutable $availableTo)
+    {
+        $c = clone $this;
+        $c->availableTo = $availableTo;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAvailableTo()
+    {
+        return (bool) $this->availableTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getAvailableTo()
+    {
+        return $this->availableTo;
     }
 
     /**
