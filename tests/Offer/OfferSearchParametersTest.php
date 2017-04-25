@@ -13,6 +13,8 @@ use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
+use ValueObjects\Geography\Country;
+use ValueObjects\Geography\CountryCode;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
@@ -246,6 +248,27 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($specificParameters->hasPostalCode());
         $this->assertEquals(new PostalCode('3000'), $specificParameters->getPostalCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_address_country_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $nl = new Country(
+            CountryCode::fromNative('NL')
+        );
+
+        $specificParameters = $defaultParameters
+            ->withAddressCountry($nl);
+
+        $this->assertFalse($defaultParameters->hasAddressCountry());
+        $this->assertNull($defaultParameters->getAddressCountry());
+
+        $this->assertTrue($specificParameters->hasAddressCountry());
+        $this->assertEquals($nl, $specificParameters->getAddressCountry());
     }
 
     /**
