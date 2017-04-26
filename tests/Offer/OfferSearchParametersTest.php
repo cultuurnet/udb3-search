@@ -211,6 +211,32 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_makes_sure_available_from_is_always_lte_than_available_to()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('availableFrom should be equal to or smaller than availableTo.');
+
+        (new OfferSearchParameters())
+            ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'))
+            ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_sure_available_to_is_always_gte_than_available_from()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('availableFrom should be equal to or smaller than availableTo.');
+
+        (new OfferSearchParameters())
+            ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'))
+            ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'));
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_workflow_status_parameter()
     {
         $defaultParameters = new OfferSearchParameters();

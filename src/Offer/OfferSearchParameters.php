@@ -237,6 +237,8 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableFrom(\DateTimeImmutable $availableFrom)
     {
+        $this->guardAvailableRange($availableFrom, $this->availableTo);
+
         $c = clone $this;
         $c->availableFrom = $availableFrom;
         return $c;
@@ -264,6 +266,8 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableTo(\DateTimeImmutable $availableTo)
     {
+        $this->guardAvailableRange($this->availableFrom, $availableTo);
+
         $c = clone $this;
         $c->availableTo = $availableTo;
         return $c;
@@ -867,6 +871,23 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getFacets()
     {
         return $this->facets;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableFrom
+     * @param \DateTimeImmutable $availableTo
+     */
+    private function guardAvailableRange(
+        \DateTimeImmutable $availableFrom = null,
+        \DateTimeImmutable $availableTo = null
+    ) {
+        if (!is_null($availableFrom) && !is_null($availableTo)) {
+            if ($availableFrom > $availableTo) {
+                throw new \InvalidArgumentException(
+                    'availableFrom should be equal to or smaller than availableTo.'
+                );
+            }
+        }
     }
 
     /**
