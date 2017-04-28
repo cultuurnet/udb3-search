@@ -96,6 +96,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $audienceType;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $dateFrom;
+
+    /**
+     * @var \DateTimeImmutable
+     */
+    private $dateTo;
+
+    /**
      * @var TermId[]
      */
     private $termIds = [];
@@ -563,6 +573,64 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
+     * @param \DateTimeImmutable $dateFrom
+     * @return OfferSearchParameters
+     */
+    public function withDateFrom(\DateTimeImmutable $dateFrom)
+    {
+        $this->guardDateRange($dateFrom, $this->dateTo);
+
+        $c = clone $this;
+        $c->dateFrom = $dateFrom;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDateFrom()
+    {
+        return (bool) $this->dateFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getDateFrom()
+    {
+        return $this->dateFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $dateTo
+     * @return OfferSearchParameters
+     */
+    public function withDateTo(\DateTimeImmutable $dateTo)
+    {
+        $this->guardDateRange($this->dateFrom, $dateTo);
+
+        $c = clone $this;
+        $c->dateTo = $dateTo;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDateTo()
+    {
+        return (bool) $this->dateTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getDateTo()
+    {
+        return $this->dateTo;
+    }
+
+    /**
      * @param TermId[] ...$termIds
      * @return OfferSearchParameters
      */
@@ -834,6 +902,18 @@ class OfferSearchParameters extends AbstractSearchParameters
                     'Minimum price should be smaller or equal to maximum price.'
                 );
             }
+        }
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $dateFrom
+     * @param \DateTimeImmutable|null $dateTo
+     * @throws \InvalidArgumentException
+     */
+    private function guardDateRange(\DateTimeImmutable $dateFrom = null, \DateTimeImmutable $dateTo = null)
+    {
+        if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
+            throw new \InvalidArgumentException('dateFrom should be before, or the same as, dateTo.');
         }
     }
 }
