@@ -173,6 +173,70 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_available_from_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $availableFrom = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+
+        $specificParameters = $defaultParameters
+            ->withAvailableFrom($availableFrom);
+
+        $this->assertFalse($defaultParameters->hasAvailableFrom());
+        $this->assertNull($defaultParameters->getAvailableFrom());
+
+        $this->assertTrue($specificParameters->hasAvailableFrom());
+        $this->assertEquals($availableFrom, $specificParameters->getAvailableFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_available_to_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $availableTo = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+
+        $specificParameters = $defaultParameters
+            ->withAvailableTo($availableTo);
+
+        $this->assertFalse($defaultParameters->hasAvailableTo());
+        $this->assertNull($defaultParameters->getAvailableTo());
+
+        $this->assertTrue($specificParameters->hasAvailableTo());
+        $this->assertEquals($availableTo, $specificParameters->getAvailableTo());
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_sure_available_from_is_always_lte_than_available_to()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('availableFrom should be equal to or smaller than availableTo.');
+
+        (new OfferSearchParameters())
+            ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'))
+            ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_sure_available_to_is_always_gte_than_available_from()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('availableFrom should be equal to or smaller than availableTo.');
+
+        (new OfferSearchParameters())
+            ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'))
+            ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'));
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_workflow_status_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
