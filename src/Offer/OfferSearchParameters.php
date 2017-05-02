@@ -31,6 +31,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $organizerCdbid;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $availableFrom;
+
+    /**
+     * @var \DateTimeImmutable
+     */
+    private $availableTo;
+
+    /**
      * @var WorkflowStatus
      */
     private $workflowStatus;
@@ -229,6 +239,64 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getOrganizerCdbid()
     {
         return $this->organizerCdbid;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableFrom
+     * @return OfferSearchParameters
+     */
+    public function withAvailableFrom(\DateTimeImmutable $availableFrom)
+    {
+        $this->guardAvailableRange($availableFrom, $this->availableTo);
+
+        $c = clone $this;
+        $c->availableFrom = $availableFrom;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAvailableFrom()
+    {
+        return (bool) $this->availableFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getAvailableFrom()
+    {
+        return $this->availableFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableTo
+     * @return OfferSearchParameters
+     */
+    public function withAvailableTo(\DateTimeImmutable $availableTo)
+    {
+        $this->guardAvailableRange($this->availableFrom, $availableTo);
+
+        $c = clone $this;
+        $c->availableTo = $availableTo;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAvailableTo()
+    {
+        return (bool) $this->availableTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getAvailableTo()
+    {
+        return $this->availableTo;
     }
 
     /**
@@ -871,6 +939,23 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getFacets()
     {
         return $this->facets;
+    }
+
+    /**
+     * @param \DateTimeImmutable $availableFrom
+     * @param \DateTimeImmutable $availableTo
+     */
+    private function guardAvailableRange(
+        \DateTimeImmutable $availableFrom = null,
+        \DateTimeImmutable $availableTo = null
+    ) {
+        if (!is_null($availableFrom) &&
+            !is_null($availableTo) &&
+            $availableFrom > $availableTo) {
+            throw new \InvalidArgumentException(
+                'availableFrom should be equal to or smaller than availableTo.'
+            );
+        }
     }
 
     /**
