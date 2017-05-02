@@ -881,12 +881,12 @@ class OfferSearchParameters extends AbstractSearchParameters
         \DateTimeImmutable $availableFrom = null,
         \DateTimeImmutable $availableTo = null
     ) {
-        if (!is_null($availableFrom) && !is_null($availableTo)) {
-            if ($availableFrom > $availableTo) {
-                throw new \InvalidArgumentException(
-                    'availableFrom should be equal to or smaller than availableTo.'
-                );
-            }
+        if (!is_null($availableFrom) &&
+            !is_null($availableTo) &&
+            $availableFrom > $availableTo) {
+            throw new \InvalidArgumentException(
+                'availableFrom should be equal to or smaller than availableTo.'
+            );
         }
     }
 
