@@ -106,6 +106,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $audienceType;
 
     /**
+     * @var bool
+     */
+    private $mediaObjectsToggle;
+
+    /**
      * @var TermId[]
      */
     private $termIds = [];
@@ -628,6 +633,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function hasAudienceType()
     {
         return (bool) $this->audienceType;
+    }
+
+    /**
+     * @param bool $mediaObjectsToggle
+     * @return OfferSearchParameters
+     */
+    public function withMediaObjectsToggle($mediaObjectsToggle)
+    {
+        $c = clone $this;
+        $c->mediaObjectsToggle = $mediaObjectsToggle;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMediaObjectsToggle()
+    {
+        return !is_null($this->mediaObjectsToggle);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getMediaObjectsToggle()
+    {
+        return $this->mediaObjectsToggle;
     }
 
     /**
