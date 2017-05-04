@@ -942,8 +942,8 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable $availableFrom
-     * @param \DateTimeImmutable $availableTo
+     * @param \DateTimeImmutable|null $availableFrom
+     * @param \DateTimeImmutable|null $availableTo
      */
     private function guardAvailableRange(
         \DateTimeImmutable $availableFrom = null,
@@ -995,10 +995,16 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param \DateTimeImmutable|null $dateTo
      * @throws \InvalidArgumentException
      */
-    private function guardDateRange(\DateTimeImmutable $dateFrom = null, \DateTimeImmutable $dateTo = null)
-    {
-        if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
-            throw new \InvalidArgumentException('dateFrom should be before, or the same as, dateTo.');
+    private function guardDateRange(
+        \DateTimeImmutable $dateFrom = null,
+        \DateTimeImmutable $dateTo = null
+    ) {
+        if (!is_null($dateFrom) &&
+            !is_null($dateTo) &&
+            $dateFrom > $dateTo) {
+            throw new \InvalidArgumentException(
+                'dateFrom should be before, or the same as, dateTo.'
+            );
         }
     }
 }
