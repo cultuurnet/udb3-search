@@ -491,6 +491,76 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_date_from_parameter()
+    {
+        $dateFrom = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
+
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withDateFrom($dateFrom);
+
+        $this->assertFalse($defaultParameters->hasDateFrom());
+        $this->assertNull($defaultParameters->getDateFrom());
+
+        $this->assertTrue($specificParameters->hasDateFrom());
+        $this->assertEquals($dateFrom, $specificParameters->getDateFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_date_to_parameter()
+    {
+        $dateTo = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
+
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withDateTo($dateTo);
+
+        $this->assertFalse($defaultParameters->hasDateTo());
+        $this->assertNull($defaultParameters->getDateTo());
+
+        $this->assertTrue($specificParameters->hasDateTo());
+        $this->assertEquals($dateTo, $specificParameters->getDateTo());
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_if_date_from_is_after_date_to()
+    {
+        $dateFrom = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
+        $dateTo = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-03-01T15:26:12+00:00');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('dateFrom should be before, or the same as, dateTo.');
+
+        (new OfferSearchParameters())
+            ->withDateTo($dateTo)
+            ->withDateFrom($dateFrom);
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_if_date_to_is_before_date_from()
+    {
+        $dateTo = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-03-01T15:26:12+00:00');
+        $dateFrom = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('dateFrom should be before, or the same as, dateTo.');
+
+        (new OfferSearchParameters())
+            ->withDateFrom($dateFrom)
+            ->withDateTo($dateTo);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_term_ids_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
