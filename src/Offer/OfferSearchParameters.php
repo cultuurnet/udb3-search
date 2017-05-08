@@ -661,7 +661,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function hasMediaObjectsToggle()
     {
-        return (bool) $this->mediaObjectsToggle;
+        return !is_null($this->mediaObjectsToggle);
     }
 
     /**

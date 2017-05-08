@@ -520,6 +520,8 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $specificParameters = (new OfferSearchParameters())
             ->withMediaObjectsToggle($shouldHaveMediaObjects);
 
+        $this->assertTrue($specificParameters->hasMediaObjectsToggle());
+
         $this->assertEquals(
             $expectedShouldHaveMediaObjects,
             $specificParameters->getMediaObjectsToggle()
