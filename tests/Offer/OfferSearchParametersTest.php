@@ -509,6 +509,58 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @dataProvider mediaObjectsDataProvider
+     * @param mixed $shouldHaveMediaObjects
+     * @param bool $expectedShouldHaveMediaObjects
+     */
+    public function it_converts_media_objects_filter_parameter_to_boolean(
+        $shouldHaveMediaObjects,
+        $expectedShouldHaveMediaObjects
+    ) {
+        $specificParameters = (new OfferSearchParameters())
+            ->withMediaObjectsToggle($shouldHaveMediaObjects);
+
+        $this->assertEquals(
+            $expectedShouldHaveMediaObjects,
+            $specificParameters->getMediaObjectsToggle()
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function mediaObjectsDataProvider()
+    {
+        return [
+            [
+                true,
+                true,
+            ],
+            [
+                false,
+                false,
+            ],
+            [
+                '1',
+                true,
+            ],
+            [
+                '0',
+                false,
+            ],
+            [
+                'TRue',
+                true,
+            ],
+            [
+                'faLSE',
+                false,
+            ]
+        ];
+    }
+
+    /**
+     * @test
      */
     public function it_has_an_optional_date_from_parameter()
     {

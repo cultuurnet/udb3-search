@@ -652,7 +652,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function withMediaObjectsToggle($mediaObjectsToggle)
     {
         $c = clone $this;
-        $c->mediaObjectsToggle = $mediaObjectsToggle;
+        $c->mediaObjectsToggle = filter_var($mediaObjectsToggle, FILTER_VALIDATE_BOOLEAN);
         return $c;
     }
 
@@ -661,7 +661,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function hasMediaObjectsToggle()
     {
-        return !is_null($this->mediaObjectsToggle);
+        return (bool) $this->mediaObjectsToggle;
     }
 
     /**
