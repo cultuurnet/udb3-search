@@ -111,6 +111,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $mediaObjectsToggle;
 
     /**
+     * @var CalendarType
+     */
+    private $calendarType;
+
+    /**
      * @var \DateTimeImmutable
      */
     private $dateFrom;
@@ -670,6 +675,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getMediaObjectsToggle()
     {
         return $this->mediaObjectsToggle;
+    }
+
+    /**
+     * @param CalendarType $calendarType
+     * @return OfferSearchParameters
+     */
+    public function withCalendarType(CalendarType $calendarType)
+    {
+        $c = clone $this;
+        $c->calendarType = $calendarType;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCalendarType()
+    {
+        return (bool) $this->calendarType;
+    }
+
+    /**
+     * @return CalendarType
+     */
+    public function getCalendarType()
+    {
+        return $this->calendarType;
     }
 
     /**
