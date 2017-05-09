@@ -564,6 +564,23 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_calendar_type_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withCalendarType(new CalendarType('single'));
+
+        $this->assertFalse($defaultParameters->hasCalendarType());
+        $this->assertNull($defaultParameters->getCalendarType());
+
+        $this->assertTrue($specificParameters->hasCalendarType());
+        $this->assertEquals(new CalendarType('single'), $specificParameters->getCalendarType());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_date_from_parameter()
     {
         $dateFrom = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
