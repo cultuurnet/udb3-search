@@ -2,7 +2,7 @@
 
 namespace CultuurNet\UDB3\Search;
 
-use MabeEnum\Enum;
+use ValueObjects\Enum\Enum;
 
 /**
  * @method static SortOrder ASC()

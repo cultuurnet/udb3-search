@@ -2,7 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
-use MabeEnum\Enum;
+use ValueObjects\Enum\Enum;
 
 /**
  * @method static SortBy AVAILABLE_TO()
