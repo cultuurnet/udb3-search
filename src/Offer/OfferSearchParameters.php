@@ -889,7 +889,7 @@ class OfferSearchParameters extends AbstractSearchParameters
         }
 
         $c = clone $this;
-        $c->uitpasToggle = filter_var($uitpasToggle, FILTER_VALIDATE_BOOLEAN);
+        $c->uitpasToggle = $uitpasToggle;
         return $c;
     }
 
