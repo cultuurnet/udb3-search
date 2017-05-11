@@ -176,6 +176,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $facets = [];
 
     /**
+     * @var Sorting[]
+     */
+    private $sorting = [];
+
+    /**
      * @param Cdbid $cdbid
      * @return OfferSearchParameters
      */
@@ -1042,6 +1047,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getFacets()
     {
         return $this->facets;
+    }
+
+    /**
+     * @param Sorting[] ...$sorting
+     * @return OfferSearchParameters
+     */
+    public function withSorting(Sorting ...$sorting)
+    {
+        $c = clone $this;
+        $c->sorting = $sorting;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSorting()
+    {
+        return !empty($this->sorting);
+    }
+
+    /**
+     * @return Sorting[]
+     */
+    public function getSorting()
+    {
+        return $this->sorting;
     }
 
     /**

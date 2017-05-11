@@ -13,6 +13,7 @@ use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
 use CultuurNet\UDB3\Search\Region\RegionId;
+use CultuurNet\UDB3\Search\SortOrder;
 use ValueObjects\Geography\Country;
 use ValueObjects\Geography\CountryCode;
 use ValueObjects\Number\Natural;
@@ -1001,6 +1002,44 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
                 FacetName::REGIONS(),
             ],
             $specificParameters->getFacets()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_sorting_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withSorting(
+                new Sorting(
+                    SortBy::AVAILABLE_TO(),
+                    SortOrder::ASC()
+                ),
+                new Sorting(
+                    SortBy::SCORE(),
+                    SortOrder::DESC()
+                )
+            );
+
+        $this->assertFalse($defaultParameters->hasSorting());
+        $this->assertEmpty($defaultParameters->getSorting());
+
+        $this->assertTrue($specificParameters->hasSorting());
+        $this->assertEquals(
+            [
+                new Sorting(
+                    SortBy::AVAILABLE_TO(),
+                    SortOrder::ASC()
+                ),
+                new Sorting(
+                    SortBy::SCORE(),
+                    SortOrder::DESC()
+                ),
+            ],
+            $specificParameters->getSorting()
         );
     }
 }
