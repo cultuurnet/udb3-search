@@ -564,6 +564,36 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_uitpas_filter_parameter()
+    {
+        $shouldHaveUitpas = true;
+
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withUitpasToggle($shouldHaveUitpas);
+
+        $this->assertFalse($defaultParameters->hasUitpasToggle());
+        $this->assertNull($defaultParameters->getUitpasToggle());
+
+        $this->assertTrue($specificParameters->hasUitpasToggle());
+        $this->assertEquals($shouldHaveUitpas, $specificParameters->getUitpasToggle());
+    }
+
+    /**
+     * @test
+     */
+    public function it_requires_boolean_type_for_uitpas_toggle()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('UiTPASToggle should be of type boolean.');
+
+        (new OfferSearchParameters())->withUitpasToggle('TRUE');
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_calendar_type_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
@@ -770,36 +800,6 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($specificParameters->hasLocationTermLabels());
         $this->assertEquals($expected, $specificParameters->getLocationTermLabels());
-    }
-
-    /**
-     * @test
-     */
-    public function it_has_an_optional_uitpas_filter_parameter()
-    {
-        $shouldHaveUitpas = true;
-
-        $defaultParameters = new OfferSearchParameters();
-
-        $specificParameters = $defaultParameters
-            ->withUitpasToggle($shouldHaveUitpas);
-
-        $this->assertFalse($defaultParameters->hasUitpasToggle());
-        $this->assertNull($defaultParameters->getUitpasToggle());
-
-        $this->assertTrue($specificParameters->hasUitpasToggle());
-        $this->assertEquals($shouldHaveUitpas, $specificParameters->getUitpasToggle());
-    }
-
-    /**
-     * @test
-     */
-    public function it_requires_boolean_type_for_uitpas_toggle()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('UiTPASToggle should be of type boolean.');
-
-        (new OfferSearchParameters())->withUitpasToggle('TRUE');
     }
 
     /**
