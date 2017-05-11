@@ -9,7 +9,6 @@ use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
-use CultuurNet\UDB3\Search\SortOrder;
 use ValueObjects\Geography\Country;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
