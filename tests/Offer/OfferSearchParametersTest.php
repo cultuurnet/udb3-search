@@ -9,6 +9,7 @@ use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
+use CultuurNet\UDB3\Search\CreatedBy;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
@@ -1040,6 +1041,26 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
                 ),
             ],
             $specificParameters->getSorting()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_created_by_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withCreatedBy(new CreatedBy('Jane Doe'));
+
+        $this->assertFalse($defaultParameters->hasCreatedBy());
+        $this->assertNull($defaultParameters->getCreatedBy());
+
+        $this->assertTrue($specificParameters->hasCreatedBy());
+        $this->assertEquals(
+            new CreatedBy('Jane Doe'),
+            $specificParameters->getCreatedBy()
         );
     }
 }
