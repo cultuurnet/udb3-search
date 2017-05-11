@@ -146,6 +146,11 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $locationTermLabels = [];
 
     /**
+     * @var bool
+     */
+    private $uitpasToggle;
+
+    /**
      * @var LabelName[]
      */
     private $labels = [];
@@ -675,6 +680,40 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getMediaObjectsToggle()
     {
         return $this->mediaObjectsToggle;
+    }
+
+    /**
+     * @param bool $uitpasToggle
+     * @return OfferSearchParameters
+     * @throws \InvalidArgumentException
+     */
+    public function withUitpasToggle($uitpasToggle)
+    {
+        if (!is_bool($uitpasToggle)) {
+            throw new \InvalidArgumentException(
+                'UiTPASToggle should be of type boolean.'
+            );
+        }
+
+        $c = clone $this;
+        $c->uitpasToggle = $uitpasToggle;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUitpasToggle()
+    {
+        return !is_null($this->uitpasToggle);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUitpasToggle()
+    {
+        return $this->uitpasToggle;
     }
 
     /**
