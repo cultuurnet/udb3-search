@@ -1009,6 +1009,26 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_created_by_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withCreatedBy(new CreatedBy('Jane Doe'));
+
+        $this->assertFalse($defaultParameters->hasCreatedBy());
+        $this->assertNull($defaultParameters->getCreatedBy());
+
+        $this->assertTrue($specificParameters->hasCreatedBy());
+        $this->assertEquals(
+            new CreatedBy('Jane Doe'),
+            $specificParameters->getCreatedBy()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_sorting_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
@@ -1041,26 +1061,6 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
                 ),
             ],
             $specificParameters->getSorting()
-        );
-    }
-
-    /**
-     * @test
-     */
-    public function it_has_an_optional_created_by_parameter()
-    {
-        $defaultParameters = new OfferSearchParameters();
-
-        $specificParameters = $defaultParameters
-            ->withCreatedBy(new CreatedBy('Jane Doe'));
-
-        $this->assertFalse($defaultParameters->hasCreatedBy());
-        $this->assertNull($defaultParameters->getCreatedBy());
-
-        $this->assertTrue($specificParameters->hasCreatedBy());
-        $this->assertEquals(
-            new CreatedBy('Jane Doe'),
-            $specificParameters->getCreatedBy()
         );
     }
 }

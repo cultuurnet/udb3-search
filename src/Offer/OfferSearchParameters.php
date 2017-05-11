@@ -177,14 +177,14 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $facets = [];
 
     /**
-     * @var Sorting[]
-     */
-    private $sorting = [];
-
-    /**
      * @var CreatedBy
      */
     private $createdBy;
+
+    /**
+     * @var Sorting[]
+     */
+    private $sorting = [];
 
     /**
      * @param Cdbid $cdbid
@@ -1056,33 +1056,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param Sorting[] ...$sorting
-     * @return OfferSearchParameters
-     */
-    public function withSorting(Sorting ...$sorting)
-    {
-        $c = clone $this;
-        $c->sorting = $sorting;
-        return $c;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasSorting()
-    {
-        return !empty($this->sorting);
-    }
-
-    /**
-     * @return Sorting[]
-     */
-    public function getSorting()
-    {
-        return $this->sorting;
-    }
-
-    /**
      * @param CreatedBy $createdBy
      * @return OfferSearchParameters
      */
@@ -1107,6 +1080,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * @param Sorting[] ...$sorting
+     * @return OfferSearchParameters
+     */
+    public function withSorting(Sorting ...$sorting)
+    {
+        $c = clone $this;
+        $c->sorting = $sorting;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSorting()
+    {
+        return !empty($this->sorting);
+    }
+
+    /**
+     * @return Sorting[]
+     */
+    public function getSorting()
+    {
+        return $this->sorting;
     }
 
     /**
