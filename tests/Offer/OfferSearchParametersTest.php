@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use Broadway\Domain\DateTime;
 use CultuurNet\Geocoding\Coordinate\Coordinates;
 use CultuurNet\Geocoding\Coordinate\Latitude;
 use CultuurNet\Geocoding\Coordinate\Longitude;
@@ -234,6 +235,127 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         (new OfferSearchParameters())
             ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'))
             ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'));
+    }
+
+    public function metadataFromDateProvider()
+    {
+        return [
+            'created from' => [
+                'dateType' => MetaDataDateType::CREATED(),
+                'from' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+            ],
+            'modified from' => [
+                'dateType' => MetaDataDateType::MODIFIED(),
+                'from' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider metadataFromDateProvider
+     */
+    public function it_has_an_optional_metadata_from_parameter(
+        MetaDataDateType $dateType,
+        \DateTimeImmutable $from
+    ) {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->{'with' . $dateType . 'from'}($from);
+
+        $this->assertFalse($defaultParameters->{'has' . $dateType . 'from'}());
+        $this->assertNull($defaultParameters->{'get' . $dateType . 'from'}());
+
+        $this->assertTrue($specificParameters->{'has' . $dateType . 'from'}());
+        $this->assertEquals($from, $specificParameters->{'get' . $dateType . 'from'}());
+    }
+
+    public function metadataToDateProvider()
+    {
+        return [
+            'created to' => [
+                'dateType' => MetaDataDateType::CREATED(),
+                'to' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+            ],
+            'modified to' => [
+                'dateType' => MetaDataDateType::MODIFIED(),
+                'to' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider metadataFromDateProvider
+     */
+    public function it_has_an_optional_metadata_to_parameter(
+        MetaDataDateType $dateType,
+        \DateTimeImmutable $to
+    ) {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->{'with' . $dateType . 'to'}($to);
+
+        $this->assertFalse($defaultParameters->{'has' . $dateType . 'to'}());
+        $this->assertNull($defaultParameters->{'get' . $dateType . 'to'}());
+
+        $this->assertTrue($specificParameters->{'has' . $dateType . 'to'}());
+        $this->assertEquals($to, $specificParameters->{'get' . $dateType . 'to'}());
+    }
+
+    public function metadataRangeDateProvider()
+    {
+        return [
+            'created' => [
+                'dateType' => MetaDataDateType::CREATED(),
+                'from' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'),
+                'to' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+                'expectedExceptionMessage' => 'createdFrom should be before, or the same as, createdTo.'
+            ],
+            'modified' => [
+                'dateType' => MetaDataDateType::MODIFIED(),
+                'from' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'),
+                'to' => \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'),
+                'expectedExceptionMessage' => 'modifiedFrom should be before, or the same as, modifiedTo.'
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider metadataRangeDateProvider
+     */
+    public function it_makes_sure_metadata_from_is_always_lte_than_metadata_to(
+        MetaDataDateType $dateType,
+        \DateTimeImmutable $from,
+        \DateTimeImmutable $to,
+        $expectedExceptionMessage
+    ) {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        (new OfferSearchParameters())
+            ->{'with' . $dateType . 'to'}($to)
+            ->{'with' . $dateType . 'from'}($from);
+    }
+
+    /**
+     * @test
+     * @dataProvider metadataRangeDateProvider
+     */
+    public function it_makes_sure_metadata_to_is_always_gte_than_metadata_from(
+        MetaDataDateType $dateType,
+        \DateTimeImmutable $from,
+        \DateTimeImmutable $to,
+        $expectedExceptionMessage
+    ) {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        (new OfferSearchParameters())
+            ->{'with' . $dateType . 'from'}($from)
+            ->{'with' . $dateType . 'to'}($to);
     }
 
     /**

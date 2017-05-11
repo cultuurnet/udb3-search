@@ -177,6 +177,26 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $facets = [];
 
     /**
+     * @var \DateTimeImmutable|null
+     */
+    private $createdFrom;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $createdTo;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $modifiedFrom;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $modifiedTo;
+
+    /**
      * @var Creator
      */
     private $creator;
@@ -1056,6 +1076,134 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
+     * @param \DateTimeImmutable $from
+     * @return OfferSearchParameters
+     */
+    public function withCreatedFrom(\DateTimeImmutable $from)
+    {
+        return $this->withMetadataDateFrom(MetaDataDateType::CREATED(), $from);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreatedFrom()
+    {
+        return (bool) $this->createdFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedFrom()
+    {
+        return $this->createdFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $to
+     * @return OfferSearchParameters
+     */
+    public function withCreatedTo(\DateTimeImmutable $to)
+    {
+        return $this->withMetadataDateTo(MetaDataDateType::CREATED(), $to);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreatedTo()
+    {
+        return (bool) $this->createdTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedTo()
+    {
+        return $this->createdTo;
+    }
+
+    /**
+     * @param \DateTimeImmutable $from
+     * @return OfferSearchParameters
+     */
+    public function withModifiedFrom(\DateTimeImmutable $from)
+    {
+        return $this->withMetadataDateFrom(MetaDataDateType::MODIFIED(), $from);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasModifiedFrom()
+    {
+        return (bool) $this->modifiedFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getModifiedFrom()
+    {
+        return $this->modifiedFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $to
+     * @return OfferSearchParameters
+     */
+    public function withModifiedTo(\DateTimeImmutable $to)
+    {
+        return $this->withMetadataDateTo(MetaDataDateType::MODIFIED(), $to);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasModifiedTo()
+    {
+        return (bool) $this->modifiedTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getModifiedTo()
+    {
+        return $this->modifiedTo;
+    }
+
+    /**
+     * @param MetaDataDateType $dateType
+     * @param \DateTimeImmutable $dateFrom
+     * @return OfferSearchParameters
+     */
+    private function withMetadataDateFrom(MetaDataDateType $dateType, \DateTimeImmutable $dateFrom)
+    {
+        $this->guardParameterDateRange((string) $dateType, $dateFrom, $this->{$dateType . 'To'});
+
+        $c = clone $this;
+        $c->{$dateType . 'From'} = $dateFrom;
+        return $c;
+    }
+
+    /**
+     * @param MetaDataDateType $dateType
+     * @param \DateTimeImmutable $dateTo
+     * @return OfferSearchParameters
+     */
+    private function withMetadataDateTo(MetaDataDateType $dateType, \DateTimeImmutable $dateTo)
+    {
+        $this->guardParameterDateRange((string) $dateType, $this->{$dateType . 'From'}, $dateTo);
+
+        $c = clone $this;
+        $c->{$dateType . 'To'} = $dateTo;
+        return $c;
+    }
+
+    /**
      * @param Creator $creator
      * @return OfferSearchParameters
      */
@@ -1168,6 +1316,24 @@ class OfferSearchParameters extends AbstractSearchParameters
         if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
             throw new \InvalidArgumentException(
                 'dateFrom should be before, or the same as, dateTo.'
+            );
+        }
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $dateFrom
+     * @param \DateTimeImmutable|null $dateTo
+     * @param string $parameterName
+     * @throws \InvalidArgumentException
+     */
+    private function guardParameterDateRange(
+        $parameterName,
+        \DateTimeImmutable $dateFrom = null,
+        \DateTimeImmutable $dateTo = null
+    ) {
+        if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
+            throw new \InvalidArgumentException(
+                sprintf('%1$sFrom should be before, or the same as, %1$sTo.', $parameterName)
             );
         }
     }
