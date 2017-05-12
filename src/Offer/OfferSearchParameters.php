@@ -7,6 +7,7 @@ use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\PriceInfo\Price;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\Search\AbstractSearchParameters;
+use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\Region\RegionId;
 use ValueObjects\Geography\Country;
@@ -174,6 +175,11 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @var FacetName[]
      */
     private $facets = [];
+
+    /**
+     * @var Creator
+     */
+    private $creator;
 
     /**
      * @var Sorting[]
@@ -1047,6 +1053,33 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getFacets()
     {
         return $this->facets;
+    }
+
+    /**
+     * @param Creator $creator
+     * @return OfferSearchParameters
+     */
+    public function withCreator(Creator $creator)
+    {
+        $c = clone $this;
+        $c->creator = $creator;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreator()
+    {
+        return (bool) $this->creator;
+    }
+
+    /**
+     * @return Creator
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 
     /**

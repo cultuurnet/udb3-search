@@ -9,6 +9,7 @@ use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
+use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
@@ -1002,6 +1003,26 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
                 FacetName::REGIONS(),
             ],
             $specificParameters->getFacets()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_creator_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters
+            ->withCreator(new Creator('Jane Doe'));
+
+        $this->assertFalse($defaultParameters->hasCreator());
+        $this->assertNull($defaultParameters->getCreator());
+
+        $this->assertTrue($specificParameters->hasCreator());
+        $this->assertEquals(
+            new Creator('Jane Doe'),
+            $specificParameters->getCreator()
         );
     }
 
