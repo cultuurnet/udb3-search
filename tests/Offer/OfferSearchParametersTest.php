@@ -9,7 +9,7 @@ use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
-use CultuurNet\UDB3\Search\CreatedBy;
+use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
 use CultuurNet\UDB3\Search\MockDistance;
 use CultuurNet\UDB3\Search\MockQueryString;
@@ -1009,20 +1009,20 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_has_an_optional_created_by_parameter()
+    public function it_has_an_optional_creator_parameter()
     {
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withCreatedBy(new CreatedBy('Jane Doe'));
+            ->withCreator(new Creator('Jane Doe'));
 
-        $this->assertFalse($defaultParameters->hasCreatedBy());
-        $this->assertNull($defaultParameters->getCreatedBy());
+        $this->assertFalse($defaultParameters->hasCreator());
+        $this->assertNull($defaultParameters->getCreator());
 
-        $this->assertTrue($specificParameters->hasCreatedBy());
+        $this->assertTrue($specificParameters->hasCreator());
         $this->assertEquals(
-            new CreatedBy('Jane Doe'),
-            $specificParameters->getCreatedBy()
+            new Creator('Jane Doe'),
+            $specificParameters->getCreator()
         );
     }
 
