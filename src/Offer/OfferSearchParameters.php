@@ -1076,12 +1076,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable $from
+     * @param \DateTimeImmutable $createdFrom
      * @return OfferSearchParameters
      */
-    public function withCreatedFrom(\DateTimeImmutable $from)
+    public function withCreatedFrom(\DateTimeImmutable $createdFrom)
     {
-        return $this->withMetadataDateFrom(MetaDataDateType::CREATED(), $from);
+        $this->guardParameterDateRange('created', $createdFrom, $this->createdTo);
+
+        $c = clone $this;
+        $c->createdFrom = $createdFrom;
+        return $c;
     }
 
     /**
@@ -1101,12 +1105,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable $to
+     * @param \DateTimeImmutable $createdTo
      * @return OfferSearchParameters
      */
-    public function withCreatedTo(\DateTimeImmutable $to)
+    public function withCreatedTo(\DateTimeImmutable $createdTo)
     {
-        return $this->withMetadataDateTo(MetaDataDateType::CREATED(), $to);
+        $this->guardParameterDateRange('created', $this->createdFrom, $createdTo);
+
+        $c = clone $this;
+        $c->createdTo = $createdTo;
+        return $c;
     }
 
     /**
@@ -1126,12 +1134,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable $from
+     * @param \DateTimeImmutable $modifiedFrom
      * @return OfferSearchParameters
      */
-    public function withModifiedFrom(\DateTimeImmutable $from)
+    public function withModifiedFrom(\DateTimeImmutable $modifiedFrom)
     {
-        return $this->withMetadataDateFrom(MetaDataDateType::MODIFIED(), $from);
+        $this->guardParameterDateRange('modified', $modifiedFrom, $this->modifiedTo);
+
+        $c = clone $this;
+        $c->modifiedFrom = $modifiedFrom;
+        return $c;
     }
 
     /**
@@ -1151,12 +1163,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable $to
+     * @param \DateTimeImmutable $modifiedTo
      * @return OfferSearchParameters
      */
-    public function withModifiedTo(\DateTimeImmutable $to)
+    public function withModifiedTo(\DateTimeImmutable $modifiedTo)
     {
-        return $this->withMetadataDateTo(MetaDataDateType::MODIFIED(), $to);
+        $this->guardParameterDateRange('modified', $this->modifiedFrom, $modifiedTo);
+
+        $c = clone $this;
+        $c->modifiedTo = $modifiedTo;
+        return $c;
     }
 
     /**
@@ -1173,34 +1189,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     public function getModifiedTo()
     {
         return $this->modifiedTo;
-    }
-
-    /**
-     * @param MetaDataDateType $dateType
-     * @param \DateTimeImmutable $dateFrom
-     * @return OfferSearchParameters
-     */
-    private function withMetadataDateFrom(MetaDataDateType $dateType, \DateTimeImmutable $dateFrom)
-    {
-        $this->guardParameterDateRange((string) $dateType, $dateFrom, $this->{$dateType . 'To'});
-
-        $c = clone $this;
-        $c->{$dateType . 'From'} = $dateFrom;
-        return $c;
-    }
-
-    /**
-     * @param MetaDataDateType $dateType
-     * @param \DateTimeImmutable $dateTo
-     * @return OfferSearchParameters
-     */
-    private function withMetadataDateTo(MetaDataDateType $dateType, \DateTimeImmutable $dateTo)
-    {
-        $this->guardParameterDateRange((string) $dateType, $this->{$dateType . 'From'}, $dateTo);
-
-        $c = clone $this;
-        $c->{$dateType . 'To'} = $dateTo;
-        return $c;
     }
 
     /**
