@@ -372,6 +372,16 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
+     * @return bool
+     */
+    public function hasRegions()
+    {
+        return !empty($this->getRegionIds()) &&
+            !is_null($this->getRegionIndexName()) &&
+            !is_null($this->getRegionDocumentType());
+    }
+
+    /**
      * @return RegionId[]
      */
     public function getRegionIds()
