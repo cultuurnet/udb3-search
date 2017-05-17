@@ -177,6 +177,26 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $facets = [];
 
     /**
+     * @var \DateTimeImmutable|null
+     */
+    private $createdFrom;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $createdTo;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $modifiedFrom;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private $modifiedTo;
+
+    /**
      * @var Creator
      */
     private $creator;
@@ -273,7 +293,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableFrom(\DateTimeImmutable $availableFrom)
     {
-        $this->guardAvailableRange($availableFrom, $this->availableTo);
+        $this->guardDateRange('available', $availableFrom, $this->availableTo);
 
         $c = clone $this;
         $c->availableFrom = $availableFrom;
@@ -302,7 +322,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableTo(\DateTimeImmutable $availableTo)
     {
-        $this->guardAvailableRange($this->availableFrom, $availableTo);
+        $this->guardDateRange('available', $this->availableFrom, $availableTo);
 
         $c = clone $this;
         $c->availableTo = $availableTo;
@@ -770,7 +790,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withDateFrom(\DateTimeImmutable $dateFrom)
     {
-        $this->guardDateRange($dateFrom, $this->dateTo);
+        $this->guardDateRange('date', $dateFrom, $this->dateTo);
 
         $c = clone $this;
         $c->dateFrom = $dateFrom;
@@ -799,7 +819,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withDateTo(\DateTimeImmutable $dateTo)
     {
-        $this->guardDateRange($this->dateFrom, $dateTo);
+        $this->guardDateRange('date', $this->dateFrom, $dateTo);
 
         $c = clone $this;
         $c->dateTo = $dateTo;
@@ -1066,6 +1086,122 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
+     * @param \DateTimeImmutable $createdFrom
+     * @return OfferSearchParameters
+     */
+    public function withCreatedFrom(\DateTimeImmutable $createdFrom)
+    {
+        $this->guardDateRange('created', $createdFrom, $this->createdTo);
+
+        $c = clone $this;
+        $c->createdFrom = $createdFrom;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreatedFrom()
+    {
+        return (bool) $this->createdFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedFrom()
+    {
+        return $this->createdFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $createdTo
+     * @return OfferSearchParameters
+     */
+    public function withCreatedTo(\DateTimeImmutable $createdTo)
+    {
+        $this->guardDateRange('created', $this->createdFrom, $createdTo);
+
+        $c = clone $this;
+        $c->createdTo = $createdTo;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreatedTo()
+    {
+        return (bool) $this->createdTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getCreatedTo()
+    {
+        return $this->createdTo;
+    }
+
+    /**
+     * @param \DateTimeImmutable $modifiedFrom
+     * @return OfferSearchParameters
+     */
+    public function withModifiedFrom(\DateTimeImmutable $modifiedFrom)
+    {
+        $this->guardDateRange('modified', $modifiedFrom, $this->modifiedTo);
+
+        $c = clone $this;
+        $c->modifiedFrom = $modifiedFrom;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasModifiedFrom()
+    {
+        return (bool) $this->modifiedFrom;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getModifiedFrom()
+    {
+        return $this->modifiedFrom;
+    }
+
+    /**
+     * @param \DateTimeImmutable $modifiedTo
+     * @return OfferSearchParameters
+     */
+    public function withModifiedTo(\DateTimeImmutable $modifiedTo)
+    {
+        $this->guardDateRange('modified', $this->modifiedFrom, $modifiedTo);
+
+        $c = clone $this;
+        $c->modifiedTo = $modifiedTo;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasModifiedTo()
+    {
+        return (bool) $this->modifiedTo;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function getModifiedTo()
+    {
+        return $this->modifiedTo;
+    }
+
+    /**
      * @param Creator $creator
      * @return OfferSearchParameters
      */
@@ -1120,21 +1256,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable|null $availableFrom
-     * @param \DateTimeImmutable|null $availableTo
-     */
-    private function guardAvailableRange(
-        \DateTimeImmutable $availableFrom = null,
-        \DateTimeImmutable $availableTo = null
-    ) {
-        if (!is_null($availableFrom) && !is_null($availableTo) && $availableFrom > $availableTo) {
-            throw new \InvalidArgumentException(
-                'availableFrom should be equal to or smaller than availableTo.'
-            );
-        }
-    }
-
-    /**
      * @param Natural|null $minAge
      * @param Natural|null $maxAge
      * @throws \InvalidArgumentException
@@ -1169,15 +1290,17 @@ class OfferSearchParameters extends AbstractSearchParameters
     /**
      * @param \DateTimeImmutable|null $dateFrom
      * @param \DateTimeImmutable|null $dateTo
+     * @param string $parameterName
      * @throws \InvalidArgumentException
      */
     private function guardDateRange(
+        $parameterName,
         \DateTimeImmutable $dateFrom = null,
         \DateTimeImmutable $dateTo = null
     ) {
         if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
             throw new \InvalidArgumentException(
-                'dateFrom should be before, or the same as, dateTo.'
+                sprintf('%1$sFrom should be equal to or smaller than %1$sTo.', $parameterName)
             );
         }
     }

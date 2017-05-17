@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use Broadway\Domain\DateTime;
 use CultuurNet\Geocoding\Coordinate\Coordinates;
 use CultuurNet\Geocoding\Coordinate\Latitude;
 use CultuurNet\Geocoding\Coordinate\Longitude;
@@ -234,6 +235,100 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         (new OfferSearchParameters())
             ->withAvailableFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'))
             ->withAvailableTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_created_from_parameter()
+    {
+        $createdFrom = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withCreatedFrom($createdFrom);
+
+        $this->assertFalse($defaultParameters->hasCreatedFrom());
+        $this->assertNull($defaultParameters->getCreatedFrom());
+
+        $this->assertTrue($specificParameters->hasCreatedFrom());
+        $this->assertEquals($createdFrom, $specificParameters->getCreatedFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_created_to_parameter()
+    {
+        $createdTo = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-27');
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withCreatedTo($createdTo);
+
+        $this->assertFalse($defaultParameters->hasCreatedTo());
+        $this->assertNull($defaultParameters->getCreatedTo());
+
+        $this->assertTrue($specificParameters->hasCreatedTo());
+        $this->assertEquals($createdTo, $specificParameters->getCreatedTo());
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_sure_created_from_is_always_lte_than_created_to()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('createdFrom should be equal to or smaller than createdTo.');
+
+        (new OfferSearchParameters())
+            ->withCreatedTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'))
+            ->withCreatedFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_modified_from_parameter()
+    {
+        $modifiedFrom = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25');
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withModifiedFrom($modifiedFrom);
+
+        $this->assertFalse($defaultParameters->hasModifiedFrom());
+        $this->assertNull($defaultParameters->getModifiedFrom());
+
+        $this->assertTrue($specificParameters->hasModifiedFrom());
+        $this->assertEquals($modifiedFrom, $specificParameters->getModifiedFrom());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_an_optional_modified_to_parameter()
+    {
+        $modifiedTo = \DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-27');
+        $defaultParameters = new OfferSearchParameters();
+
+        $specificParameters = $defaultParameters->withModifiedTo($modifiedTo);
+
+        $this->assertFalse($defaultParameters->hasModifiedTo());
+        $this->assertNull($defaultParameters->getModifiedTo());
+
+        $this->assertTrue($specificParameters->hasModifiedTo());
+        $this->assertEquals($modifiedTo, $specificParameters->getModifiedTo());
+    }
+
+    /**
+     * @test
+     */
+    public function it_makes_sure_modified_from_is_always_lte_than_modified_to()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('modifiedFrom should be equal to or smaller than modifiedTo.');
+
+        (new OfferSearchParameters())
+            ->withModifiedTo(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-25'))
+            ->withModifiedFrom(\DateTimeImmutable::createFromFormat('Y-m-d', '2017-04-26'));
     }
 
     /**
@@ -664,7 +759,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $dateTo = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-03-01T15:26:12+00:00');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('dateFrom should be before, or the same as, dateTo.');
+        $this->expectExceptionMessage('dateFrom should be equal to or smaller than dateTo.');
 
         (new OfferSearchParameters())
             ->withDateTo($dateTo)
@@ -680,7 +775,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $dateFrom = \DateTimeImmutable::createFromFormat(\DateTime::ATOM, '2017-04-28T15:26:12+00:00');
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('dateFrom should be before, or the same as, dateTo.');
+        $this->expectExceptionMessage('dateFrom should be equal to or smaller than dateTo.');
 
         (new OfferSearchParameters())
             ->withDateFrom($dateFrom)
