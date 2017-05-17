@@ -47,9 +47,9 @@ class OfferSearchParameters extends AbstractSearchParameters
     private $workflowStatus;
 
     /**
-     * @var RegionId
+     * @var RegionId[]
      */
-    private $regionId;
+    private $regionIds = [];
 
     /**
      * @var StringLiteral
@@ -354,29 +354,39 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param RegionId $regionId
      * @param StringLiteral $regionIndexName
      * @param StringLiteral $regionDocumentType
+     * @param RegionId[] ...$regionIds
      * @return OfferSearchParameters
      */
-    public function withRegion(
-        RegionId $regionId,
+    public function withRegions(
         StringLiteral $regionIndexName,
-        StringLiteral $regionDocumentType
+        StringLiteral $regionDocumentType,
+        RegionId ...$regionIds
     ) {
         $c = clone $this;
-        $c->regionId = $regionId;
+        $c->regionIds = array_unique(array_merge($this->regionIds, $regionIds));
         $c->regionIndexName = $regionIndexName;
         $c->regionDocumentType = $regionDocumentType;
         return $c;
     }
 
     /**
-     * @return RegionId
+     * @return bool
      */
-    public function getRegionId()
+    public function hasRegions()
     {
-        return $this->regionId;
+        return !empty($this->getRegionIds()) &&
+            !is_null($this->getRegionIndexName()) &&
+            !is_null($this->getRegionDocumentType());
+    }
+
+    /**
+     * @return RegionId[]
+     */
+    public function getRegionIds()
+    {
+        return $this->regionIds;
     }
 
     /**
