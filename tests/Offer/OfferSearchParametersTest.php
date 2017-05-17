@@ -358,13 +358,20 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withRegion(
-                new RegionId('24062'),
+            ->withRegions(
                 new StringLiteral('geoshapes'),
-                new StringLiteral('region')
+                new StringLiteral('region'),
+                new RegionId('24062'),
+                new RegionId('182')
             );
 
-        $this->assertEquals(new RegionId('24062'), $specificParameters->getRegionId());
+        $this->assertFalse($defaultParameters->hasRegions());
+        $this->assertEquals([], $defaultParameters->getRegionIds());
+        $this->assertNull($defaultParameters->getRegionIndexName());
+        $this->assertNull($defaultParameters->getRegionDocumentType());
+
+        $this->assertTrue($specificParameters->hasRegions());
+        $this->assertEquals([new RegionId('24062'),new RegionId('182')], $specificParameters->getRegionIds());
         $this->assertEquals(new StringLiteral('geoshapes'), $specificParameters->getRegionIndexName());
         $this->assertEquals(new StringLiteral('region'), $specificParameters->getRegionDocumentType());
     }
