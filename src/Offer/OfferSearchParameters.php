@@ -293,7 +293,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableFrom(\DateTimeImmutable $availableFrom)
     {
-        $this->guardAvailableRange($availableFrom, $this->availableTo);
+        $this->guardDateRange('available', $availableFrom, $this->availableTo);
 
         $c = clone $this;
         $c->availableFrom = $availableFrom;
@@ -322,7 +322,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withAvailableTo(\DateTimeImmutable $availableTo)
     {
-        $this->guardAvailableRange($this->availableFrom, $availableTo);
+        $this->guardDateRange('available', $this->availableFrom, $availableTo);
 
         $c = clone $this;
         $c->availableTo = $availableTo;
@@ -1246,21 +1246,6 @@ class OfferSearchParameters extends AbstractSearchParameters
     }
 
     /**
-     * @param \DateTimeImmutable|null $availableFrom
-     * @param \DateTimeImmutable|null $availableTo
-     */
-    private function guardAvailableRange(
-        \DateTimeImmutable $availableFrom = null,
-        \DateTimeImmutable $availableTo = null
-    ) {
-        if (!is_null($availableFrom) && !is_null($availableTo) && $availableFrom > $availableTo) {
-            throw new \InvalidArgumentException(
-                'availableFrom should be equal to or smaller than availableTo.'
-            );
-        }
-    }
-
-    /**
      * @param Natural|null $minAge
      * @param Natural|null $maxAge
      * @throws \InvalidArgumentException
@@ -1305,7 +1290,7 @@ class OfferSearchParameters extends AbstractSearchParameters
     ) {
         if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
             throw new \InvalidArgumentException(
-                sprintf('%1$sFrom should be before, or the same as, %1$sTo.', $parameterName)
+                sprintf('%1$sFrom should be equal to or smaller than %1$sTo.', $parameterName)
             );
         }
     }
