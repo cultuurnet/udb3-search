@@ -359,7 +359,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      * @param RegionId[] ...$regionIds
      * @return OfferSearchParameters
      */
-    public function withRegion(
+    public function withRegions(
         StringLiteral $regionIndexName,
         StringLiteral $regionDocumentType,
         RegionId ...$regionIds

@@ -263,7 +263,7 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
         $defaultParameters = new OfferSearchParameters();
 
         $specificParameters = $defaultParameters
-            ->withRegion(
+            ->withRegions(
                 new StringLiteral('geoshapes'),
                 new StringLiteral('region'),
                 new RegionId('24062'),
