@@ -780,7 +780,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withDateFrom(\DateTimeImmutable $dateFrom)
     {
-        $this->guardDateRange($dateFrom, $this->dateTo);
+        $this->guardDateRange('date', $dateFrom, $this->dateTo);
 
         $c = clone $this;
         $c->dateFrom = $dateFrom;
@@ -809,7 +809,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withDateTo(\DateTimeImmutable $dateTo)
     {
-        $this->guardDateRange($this->dateFrom, $dateTo);
+        $this->guardDateRange('date', $this->dateFrom, $dateTo);
 
         $c = clone $this;
         $c->dateTo = $dateTo;
@@ -1081,7 +1081,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withCreatedFrom(\DateTimeImmutable $createdFrom)
     {
-        $this->guardParameterDateRange('created', $createdFrom, $this->createdTo);
+        $this->guardDateRange('created', $createdFrom, $this->createdTo);
 
         $c = clone $this;
         $c->createdFrom = $createdFrom;
@@ -1110,7 +1110,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withCreatedTo(\DateTimeImmutable $createdTo)
     {
-        $this->guardParameterDateRange('created', $this->createdFrom, $createdTo);
+        $this->guardDateRange('created', $this->createdFrom, $createdTo);
 
         $c = clone $this;
         $c->createdTo = $createdTo;
@@ -1139,7 +1139,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withModifiedFrom(\DateTimeImmutable $modifiedFrom)
     {
-        $this->guardParameterDateRange('modified', $modifiedFrom, $this->modifiedTo);
+        $this->guardDateRange('modified', $modifiedFrom, $this->modifiedTo);
 
         $c = clone $this;
         $c->modifiedFrom = $modifiedFrom;
@@ -1168,7 +1168,7 @@ class OfferSearchParameters extends AbstractSearchParameters
      */
     public function withModifiedTo(\DateTimeImmutable $modifiedTo)
     {
-        $this->guardParameterDateRange('modified', $this->modifiedFrom, $modifiedTo);
+        $this->guardDateRange('modified', $this->modifiedFrom, $modifiedTo);
 
         $c = clone $this;
         $c->modifiedTo = $modifiedTo;
@@ -1295,26 +1295,10 @@ class OfferSearchParameters extends AbstractSearchParameters
     /**
      * @param \DateTimeImmutable|null $dateFrom
      * @param \DateTimeImmutable|null $dateTo
-     * @throws \InvalidArgumentException
-     */
-    private function guardDateRange(
-        \DateTimeImmutable $dateFrom = null,
-        \DateTimeImmutable $dateTo = null
-    ) {
-        if (!is_null($dateFrom) && !is_null($dateTo) && $dateFrom > $dateTo) {
-            throw new \InvalidArgumentException(
-                'dateFrom should be before, or the same as, dateTo.'
-            );
-        }
-    }
-
-    /**
-     * @param \DateTimeImmutable|null $dateFrom
-     * @param \DateTimeImmutable|null $dateTo
      * @param string $parameterName
      * @throws \InvalidArgumentException
      */
-    private function guardParameterDateRange(
+    private function guardDateRange(
         $parameterName,
         \DateTimeImmutable $dateFrom = null,
         \DateTimeImmutable $dateTo = null
