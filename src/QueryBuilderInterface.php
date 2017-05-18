@@ -33,4 +33,10 @@ interface QueryBuilderInterface
      * @return static
      */
     public function withLimit(Natural $limit);
+
+    /**
+     * @return mixed
+     *   Return type depends on the implementation.
+     */
+    public function build();
 }
