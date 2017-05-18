@@ -63,6 +63,25 @@ class OfferSearchParametersTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_has_an_optional_text_parameter()
+    {
+        $defaultParameters = new OfferSearchParameters();
+
+        $text = new StringLiteral('foo AND bar');
+
+        $specificParameters = $defaultParameters
+            ->withText($text);
+
+        $this->assertFalse($defaultParameters->hasText());
+        $this->assertNull($defaultParameters->getText());
+
+        $this->assertTrue($specificParameters->hasText());
+        $this->assertEquals($text, $specificParameters->getText());
+    }
+
+    /**
+     * @test
+     */
     public function it_has_an_optional_text_languages_parameter_that_has_default_values()
     {
         $defaultParameters = new OfferSearchParameters();
