@@ -4,6 +4,7 @@ namespace CultuurNet\UDB3\Search;
 
 use CultuurNet\UDB3\Language;
 use ValueObjects\Number\Natural;
+use ValueObjects\StringLiteral\StringLiteral;
 
 abstract class AbstractSearchParameters
 {
@@ -21,6 +22,11 @@ abstract class AbstractSearchParameters
      * @var AbstractQueryString|null
      */
     private $queryString;
+
+    /**
+     * @var StringLiteral
+     */
+    private $text;
 
     /**
      * @var Language[]
@@ -100,6 +106,33 @@ abstract class AbstractSearchParameters
     public function getQueryString()
     {
         return $this->queryString;
+    }
+
+    /**
+     * @param StringLiteral $text
+     * @return static
+     */
+    public function withText(StringLiteral $text)
+    {
+        $c = clone $this;
+        $c->text = $text;
+        return $c;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasText()
+    {
+        return (bool) $this->text;
+    }
+
+    /**
+     * @return StringLiteral
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 
     /**
