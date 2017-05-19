@@ -52,10 +52,10 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     );
 
     /**
-     * @param WorkflowStatus $workflowStatus
+     * @param WorkflowStatus[] $workflowStatuses
      * @return OfferQueryBuilderInterface
      */
-    public function withWorkflowStatusFilter(WorkflowStatus $workflowStatus);
+    public function withWorkflowStatusFilter(WorkflowStatus ...$workflowStatuses);
 
     /**
      * @param \DateTimeImmutable|null $from
