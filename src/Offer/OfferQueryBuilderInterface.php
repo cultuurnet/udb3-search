@@ -15,6 +15,10 @@ use ValueObjects\Geography\Country;
 use ValueObjects\Number\Natural;
 use ValueObjects\StringLiteral\StringLiteral;
 
+/**
+ * Multiple filters are combined using AND.
+ * Filters that accept multiple values use OR internally.
+ */
 interface OfferQueryBuilderInterface extends QueryBuilderInterface
 {
     /**
