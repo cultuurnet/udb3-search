@@ -21,13 +21,13 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
      * @param Cdbid $cdbid
      * @return OfferQueryBuilderInterface
      */
-    public function withCbdIdFilter(Cdbid $cdbid);
+    public function withCdbIdFilter(Cdbid $cdbid);
 
     /**
      * @param Cdbid $locationCdbid
      * @return OfferQueryBuilderInterface
      */
-    public function withLocationCbdIdFilter(Cdbid $locationCdbid);
+    public function withLocationCdbIdFilter(Cdbid $locationCdbid);
 
     /**
      * @param Cdbid $organizerCdbId
