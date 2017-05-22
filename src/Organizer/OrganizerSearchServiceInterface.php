@@ -7,8 +7,8 @@ use CultuurNet\UDB3\Search\PagedResultSet;
 interface OrganizerSearchServiceInterface
 {
     /**
-     * @param OrganizerSearchParameters $searchParameters
+     * @param OrganizerQueryBuilderInterface $queryBuilder
      * @return PagedResultSet
      */
-    public function search(OrganizerSearchParameters $searchParameters);
+    public function search(OrganizerQueryBuilderInterface $queryBuilder);
 }
