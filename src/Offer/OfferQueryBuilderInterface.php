@@ -219,11 +219,16 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     public function withFacet(FacetName $facetName);
 
     /**
-     * @param SortBy $sortBy
      * @param SortOrder $sortOrder
      * @return OfferQueryBuilderInterface
      */
-    public function withSort(SortBy $sortBy, SortOrder $sortOrder);
+    public function withSortByScore(SortOrder $sortOrder);
+
+    /**
+     * @param SortOrder $sortOrder
+     * @return OfferQueryBuilderInterface
+     */
+    public function withSortByAvailableTo(SortOrder $sortOrder);
 
     /**
      * @param Coordinates $coordinates
