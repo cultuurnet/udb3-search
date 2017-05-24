@@ -2,6 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Offer;
 
+use CultuurNet\Geocoding\Coordinate\Coordinates;
 use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
@@ -223,4 +224,11 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
      * @return OfferQueryBuilderInterface
      */
     public function withSort(SortBy $sortBy, SortOrder $sortOrder);
+
+    /**
+     * @param Coordinates $coordinates
+     * @param SortOrder $sortOrder
+     * @return OfferQueryBuilderInterface
+     */
+    public function withSortByDistance(Coordinates $coordinates, SortOrder $sortOrder);
 }
