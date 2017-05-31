@@ -47,6 +47,12 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     public function withLanguageFilter(Language $language);
 
     /**
+     * @param Language $language
+     * @return OfferQueryBuilderInterface
+     */
+    public function withCompletedLanguageFilter(Language $language);
+
+    /**
      * @param \DateTimeImmutable|null $from
      * @param \DateTimeImmutable|null $to
      * @return OfferQueryBuilderInterface
