@@ -105,10 +105,10 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     );
 
     /**
-     * @param CalendarType $calendarType
+     * @param CalendarType[] $calendarTypes
      * @return OfferQueryBuilderInterface
      */
-    public function withCalendarTypeFilter(CalendarType $calendarType);
+    public function withCalendarTypeFilter(CalendarType ...$calendarTypes);
 
     /**
      * @param PostalCode $postalCode
