@@ -41,6 +41,12 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     public function withOrganizerCdbIdFilter(Cdbid $organizerCdbId);
 
     /**
+     * @param Language[] ...$mainLanguages
+     * @return OfferQueryBuilderInterface
+     */
+    public function withMainLanguageFilter(Language ...$mainLanguages);
+
+    /**
      * @param Language $language
      * @return OfferQueryBuilderInterface
      */
