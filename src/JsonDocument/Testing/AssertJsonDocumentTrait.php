@@ -11,6 +11,21 @@ trait AssertJsonDocumentTrait
      * @param JsonDocument $expected
      * @param JsonDocument $actual
      */
+    private function assertJsonDocumentOrderlessEquals(
+        \PHPUnit_Framework_TestCase $testCase,
+        JsonDocument $expected,
+        JsonDocument $actual
+    ) {
+        $expected = json_decode($expected->getRawBody());
+        $actual = json_decode($actual->getRawBody());
+        $testCase->assertEquals($expected, $actual);
+    }
+    
+    /**
+     * @param \PHPUnit_Framework_TestCase $testCase
+     * @param JsonDocument $expected
+     * @param JsonDocument $actual
+     */
     private function assertJsonDocumentEquals(
         \PHPUnit_Framework_TestCase $testCase,
         JsonDocument $expected,
