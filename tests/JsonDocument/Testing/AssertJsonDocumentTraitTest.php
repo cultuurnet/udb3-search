@@ -11,7 +11,7 @@ class AssertJsonDocumentTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_can_compaire_json_documents_orderless()
+    public function it_can_compare_properties_of_json_documents()
     {
         $ordered = json_encode(
             [
@@ -31,7 +31,7 @@ class AssertJsonDocumentTraitTest extends \PHPUnit_Framework_TestCase
         $originalDocument = new JsonDocument('1', $orderless);
         $expectedDocument = new JsonDocument('1', $ordered);
 
-        $this->assertJsonDocumentOrderlessEquals($this, $expectedDocument, $originalDocument);
+        $this->assertJsonDocumentPropertiesEquals($this, $expectedDocument, $originalDocument);
     }
 
     /**
