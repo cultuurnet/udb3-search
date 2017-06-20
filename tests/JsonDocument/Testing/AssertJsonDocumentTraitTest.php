@@ -11,6 +11,32 @@ class AssertJsonDocumentTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function it_can_compare_properties_of_json_documents()
+    {
+        $ordered = json_encode(
+            [
+                'first' => 'gold',
+                'second' =>  'silver',
+                'third' => 'bronze'
+            ]
+        );
+        $orderless = json_encode(
+            [
+                'second' =>  'silver',
+                'first' => 'gold',
+                'third' => 'bronze'
+            ]
+        );
+
+        $originalDocument = new JsonDocument('1', $orderless);
+        $expectedDocument = new JsonDocument('1', $ordered);
+
+        $this->assertJsonDocumentPropertiesEquals($this, $expectedDocument, $originalDocument);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_convert_compact_json_documents_to_pretty_print_json_documents()
     {
         $data = ['foo' => 'bar'];
