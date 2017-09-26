@@ -62,6 +62,19 @@ class TransformingJsonDocumentIndexService implements
                 $jsonLd
             );
 
+            $body = $jsonDocument->getBody();
+            if (isset($body->workflowStatus) &&
+                $body->workflowStatus === 'DELETED') {
+                $this->logger->info(
+                    'The document will not be indexed because it is marked as deleted.',
+                    [
+                        'id' => $documentId,
+                        'url' => $documentIri,
+                    ]
+                );
+                return;
+            }
+
             $jsonDocument = $this->jsonDocumentTransformer
                 ->transform($jsonDocument);
 
@@ -83,6 +96,17 @@ class TransformingJsonDocumentIndexService implements
      */
     public function remove($documentId)
     {
-        $this->searchRepository->remove($documentId);
+        try {
+            $this->searchRepository->remove($documentId);
+        } catch (\Exception $exception){
+            $this->logger->error(
+                'Could not remove document from repository.',
+                [
+                    'id' => $documentId,
+                    'exception_code' => $exception->getCode(),
+                    'exception_message' => $exception->getMessage(),
+                ]
+            );
+        }
     }
 }
