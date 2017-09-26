@@ -114,6 +114,37 @@ class TransformingJsonDocumentIndexServiceTest extends \PHPUnit_Framework_TestCa
     /**
      * @test
      */
+    public function it_does_not_index_when_workflow_status_deleted()
+    {
+        $documentId = '23017cb7-e515-47b4-87c4-780735acc942';
+        $documentUrl = 'event/' . $documentId;
+
+        $jsonLd = '{
+            "foo":"bar",
+            "workflowStatus":"DELETED"
+        }';
+
+        $this->httpClient->expects($this->once())
+            ->method('request')
+            ->with('GET', $documentUrl)
+            ->willReturn(new Response(200, [], $jsonLd));
+
+        $this->logger->expects($this->once())
+            ->method('info')
+            ->with(
+                'The document will not be indexed because it is marked as deleted.',
+                [
+                    'id' => $documentId,
+                    'url' => $documentUrl,
+                ]
+            );
+
+        $this->indexService->index($documentId, $documentUrl);
+    }
+
+    /**
+     * @test
+     */
     public function it_removes_the_given_document_by_id()
     {
         $documentId = '23017cb7-e515-47b4-87c4-780735acc942';
@@ -121,6 +152,34 @@ class TransformingJsonDocumentIndexServiceTest extends \PHPUnit_Framework_TestCa
         $this->searchRepository->expects($this->once())
             ->method('remove')
             ->with($documentId);
+
+        $this->indexService->remove($documentId);
+    }
+
+    /**
+     * @test
+     */
+    public function it_logs_an_error_when_document_can_not_be_removed()
+    {
+        $documentId = '23017cb7-e515-47b4-87c4-780735acc942';
+
+        $exception = new \Exception('Document is already gone', 404);
+
+        $this->searchRepository->expects($this->once())
+            ->method('remove')
+            ->with($documentId)
+            ->willThrowException($exception);
+
+        $this->logger->expects($this->once())
+            ->method('error')
+            ->with(
+                'Could not remove document from repository.',
+                [
+                    'id' => $documentId,
+                    'exception_code' => $exception->getCode(),
+                    'exception_message' => $exception->getMessage(),
+                ]
+            );
 
         $this->indexService->remove($documentId);
     }
