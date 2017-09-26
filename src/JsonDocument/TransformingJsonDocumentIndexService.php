@@ -98,7 +98,7 @@ class TransformingJsonDocumentIndexService implements
     {
         try {
             $this->searchRepository->remove($documentId);
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
             $this->logger->error(
                 'Could not remove document from repository.',
                 [
