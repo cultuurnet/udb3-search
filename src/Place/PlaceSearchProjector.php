@@ -2,7 +2,6 @@
 
 namespace CultuurNet\UDB3\Search\Place;
 
-use CultuurNet\UDB3\Place\Events\PlaceDeleted;
 use CultuurNet\UDB3\Place\Events\PlaceProjectedToJSONLD;
 use CultuurNet\UDB3\Search\AbstractSearchProjector;
 
@@ -18,7 +17,6 @@ class PlaceSearchProjector extends AbstractSearchProjector
     {
         return [
             PlaceProjectedToJSONLD::class => 'handlePlaceProjectedToJSONLD',
-            PlaceDeleted::class => 'handlePlaceDeleted',
         ];
     }
 
@@ -30,16 +28,6 @@ class PlaceSearchProjector extends AbstractSearchProjector
         $this->getIndexService()->index(
             $placeProjectedToJSONLD->getItemId(),
             $placeProjectedToJSONLD->getIri()
-        );
-    }
-
-    /**
-     * @param PlaceDeleted $placeDeleted
-     */
-    protected function handlePlaceDeleted(PlaceDeleted $placeDeleted)
-    {
-        $this->getIndexService()->remove(
-            $placeDeleted->getItemId()
         );
     }
 }
