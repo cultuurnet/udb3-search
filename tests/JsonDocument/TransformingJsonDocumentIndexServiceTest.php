@@ -114,37 +114,6 @@ class TransformingJsonDocumentIndexServiceTest extends \PHPUnit_Framework_TestCa
     /**
      * @test
      */
-    public function it_does_not_index_when_workflow_status_deleted()
-    {
-        $documentId = '23017cb7-e515-47b4-87c4-780735acc942';
-        $documentUrl = 'event/' . $documentId;
-
-        $jsonLd = '{
-            "foo":"bar",
-            "workflowStatus":"DELETED"
-        }';
-
-        $this->httpClient->expects($this->once())
-            ->method('request')
-            ->with('GET', $documentUrl)
-            ->willReturn(new Response(200, [], $jsonLd));
-
-        $this->logger->expects($this->once())
-            ->method('info')
-            ->with(
-                'The document will not be indexed because it is marked as deleted.',
-                [
-                    'id' => $documentId,
-                    'url' => $documentUrl,
-                ]
-            );
-
-        $this->indexService->index($documentId, $documentUrl);
-    }
-
-    /**
-     * @test
-     */
     public function it_removes_the_given_document_by_id()
     {
         $documentId = '23017cb7-e515-47b4-87c4-780735acc942';
