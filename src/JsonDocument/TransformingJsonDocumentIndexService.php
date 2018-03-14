@@ -49,6 +49,7 @@ class TransformingJsonDocumentIndexService implements
     /**
      * @param string $documentId
      * @param string $documentIri
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function index($documentId, $documentIri)
     {
@@ -61,19 +62,6 @@ class TransformingJsonDocumentIndexService implements
                 $documentId,
                 $jsonLd
             );
-
-            $body = $jsonDocument->getBody();
-            if (isset($body->workflowStatus) &&
-                $body->workflowStatus === 'DELETED') {
-                $this->logger->info(
-                    'The document will not be indexed because it is marked as deleted.',
-                    [
-                        'id' => $documentId,
-                        'url' => $documentIri,
-                    ]
-                );
-                return;
-            }
 
             $jsonDocument = $this->jsonDocumentTransformer
                 ->transform($jsonDocument);

@@ -53,7 +53,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_removes_deleted_Organizers_from_the_index()
+    public function it_does_not_handle_organizer_deleted()
     {
         $organizerId = '23017cb7-e515-47b4-87c4-780735acc942';
 
@@ -65,7 +65,7 @@ class OrganizerSearchProjectorTest extends \PHPUnit_Framework_TestCase
             DateTime::now()
         );
 
-        $this->indexService->expects($this->once())
+        $this->indexService->expects($this->never())
             ->method('remove')
             ->with($organizerId);
 
