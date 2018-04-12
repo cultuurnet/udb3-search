@@ -2,7 +2,7 @@
 
 namespace CultuurNet\UDB3\Search\Organizer;
 
-use CultuurNet\UDB3\Model\ValueObject\Geography\PostalCode;
+use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Search\QueryBuilderInterface;
 use ValueObjects\StringLiteral\StringLiteral;
 use ValueObjects\Web\Url;
