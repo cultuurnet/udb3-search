@@ -160,6 +160,14 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     public function withAgeRangeFilter(Natural $minimum = null, Natural $maximum = null);
 
     /**
+     * @param bool $include
+     *   When set to true ONLY offers for all age ranges will be included.
+     *   When set to false offers for all age ranges will be excluded.
+     * @return OfferQueryBuilderInterface
+     */
+    public function withAllAgesFilter($include);
+
+    /**
      * @param Price|null $minimum
      * @param Price|null $maximum
      * @return OfferQueryBuilderInterface
