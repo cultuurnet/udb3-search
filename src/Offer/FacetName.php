@@ -9,6 +9,7 @@ use ValueObjects\Enum\Enum;
  * @method static FacetName TYPES()
  * @method static FacetName THEMES()
  * @method static FacetName FACILITIES()
+ * @method static FacetName LABELS()
  */
 class FacetName extends Enum
 {
@@ -16,4 +17,5 @@ class FacetName extends Enum
     const TYPES = 'types';
     const THEMES = 'themes';
     const FACILITIES = 'facilities';
+    const LABELS = 'labels';
 }
