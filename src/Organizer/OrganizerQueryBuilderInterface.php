@@ -3,6 +3,7 @@
 namespace CultuurNet\UDB3\Search\Organizer;
 
 use CultuurNet\UDB3\Address\PostalCode;
+use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\QueryBuilderInterface;
 use ValueObjects\StringLiteral\StringLiteral;
@@ -33,4 +34,10 @@ interface OrganizerQueryBuilderInterface extends QueryBuilderInterface
      * @return static
      */
     public function withCreatorFilter(Creator $creator);
+
+    /**
+     * @param LabelName $label
+     * @return static
+     */
+    public function withLabelFilter(LabelName $label);
 }
