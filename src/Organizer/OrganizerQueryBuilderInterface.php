@@ -6,6 +6,7 @@ use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\QueryBuilderInterface;
+use ValueObjects\Geography\Country;
 use ValueObjects\StringLiteral\StringLiteral;
 use ValueObjects\Web\Domain;
 use ValueObjects\Web\Url;
@@ -35,6 +36,12 @@ interface OrganizerQueryBuilderInterface extends QueryBuilderInterface
      * @return static
      */
     public function withPostalCodeFilter(PostalCode $postalCode);
+
+    /**
+     * @param Country $country
+     * @return static
+     */
+    public function withAddressCountryFilter(Country $country);
 
     /**
      * @param Creator $creator
