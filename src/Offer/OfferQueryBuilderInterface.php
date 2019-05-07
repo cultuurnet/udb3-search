@@ -251,6 +251,18 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
     public function withSortByAvailableTo(SortOrder $sortOrder);
 
     /**
+     * @param SortOrder $sortOrder
+     * @return OfferQueryBuilderInterface
+     */
+    public function withSortByCreated(SortOrder $sortOrder);
+
+    /**
+     * @param SortOrder $sortOrder
+     * @return OfferQueryBuilderInterface
+     */
+    public function withSortByModified(SortOrder $sortOrder);
+
+    /**
      * @param Coordinates $coordinates
      * @param SortOrder $sortOrder
      * @return OfferQueryBuilderInterface
