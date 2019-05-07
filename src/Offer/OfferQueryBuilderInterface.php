@@ -7,6 +7,7 @@ use CultuurNet\UDB3\Address\PostalCode;
 use CultuurNet\UDB3\Label\ValueObjects\LabelName;
 use CultuurNet\UDB3\Language;
 use CultuurNet\UDB3\PriceInfo\Price;
+use CultuurNet\UDB3\Search\GeoBoundsParameters;
 use CultuurNet\UDB3\Search\QueryBuilderInterface;
 use CultuurNet\UDB3\Search\Creator;
 use CultuurNet\UDB3\Search\GeoDistanceParameters;
@@ -145,6 +146,12 @@ interface OfferQueryBuilderInterface extends QueryBuilderInterface
      * @return OfferQueryBuilderInterface
      */
     public function withGeoDistanceFilter(GeoDistanceParameters $geoDistance);
+
+    /**
+     * @param GeoBoundsParameters $geoBounds
+     * @return OfferQueryBuilderInterface
+     */
+    public function withGeoBoundsFilter(GeoBoundsParameters $geoBounds);
 
     /**
      * @param AudienceType $audienceType
