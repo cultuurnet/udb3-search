@@ -54,4 +54,10 @@ interface OrganizerQueryBuilderInterface extends QueryBuilderInterface
      * @return static
      */
     public function withLabelFilter(LabelName $label);
+
+    /**
+     * @param WorkflowStatus[] $workflowStatuses
+     * @return static
+     */
+    public function withWorkflowStatusFilter(WorkflowStatus ...$workflowStatuses);
 }
